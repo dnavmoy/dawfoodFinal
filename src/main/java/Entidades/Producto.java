@@ -49,7 +49,7 @@ public class Producto implements Serializable {
     private float precio;
     @Basic(optional = false)
     @Column(name = "Iva")
-    private String iva;
+    private float iva;
     @Basic(optional = false)
     @Column(name = "Stock")
     private int stock;
@@ -66,7 +66,7 @@ public class Producto implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public Producto(Integer idProducto, String descripcion, float precio, String iva, int stock) {
+    public Producto(Integer idProducto, String descripcion, float precio, float iva, int stock) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -98,11 +98,11 @@ public class Producto implements Serializable {
         this.precio = precio;
     }
 
-    public String getIva() {
+    public float getIva() {
         return iva;
     }
 
-    public void setIva(String iva) {
+    public void setIva(float iva) {
         this.iva = iva;
     }
 

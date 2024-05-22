@@ -11,7 +11,7 @@ package Ventanas;
 public class VentanaPedido extends javax.swing.JDialog {
 
     private VentanaUsuario padre;
-    
+    private Carrito carrito;
     /**
      * Creates new form VentanaPedido
      */
@@ -19,8 +19,13 @@ public class VentanaPedido extends javax.swing.JDialog {
         super(ventana, modal);
         padre=ventana;
         initComponents();
+        this.carrito = new Carrito();
     }
 
+    protected Carrito getCarrito(){
+        return this.carrito;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

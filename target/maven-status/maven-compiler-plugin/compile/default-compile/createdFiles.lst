@@ -1,4 +1,5 @@
 Ventanas\VentanaPedido$4.class
+Ventanas\Carrito.class
 Entidades\Ticket.class
 Ventanas\VentanaInicial$3.class
 Entidades\TicketJpaController.class
@@ -12,13 +13,16 @@ Entidades\ProductosticketJpaController.class
 Ventanas\VentanaCategoria.class
 Ventanas\VentanaInicial$1.class
 Entidades\ProductosticketPK_.class
+Ventanas\VentanaCategoria$2.class
 Entidades\exceptions\NonexistentEntityException.class
 Entidades\exceptions\IllegalOrphanException.class
 Ventanas\VentanaPedido$2.class
 Entidades\Producto_.class
+Ventanas\ModeloTablaCarrito.class
 Entidades\Tpv_.class
 Ventanas\VentanaUsuario$2.class
 Ventanas\VentanaPedido$3.class
+Ventanas\VentanaCategoria$3.class
 Entidades\Categorias_.class
 Ventanas\VentanaPedido.class
 Entidades\CategoriasJpaController.class
@@ -28,6 +32,7 @@ Entidades\Productosticket.class
 Ventanas\DawFoodDanielNavarro.class
 Ventanas\ModeloTablaProducto.class
 Ventanas\VentanaUsuario.class
+Ventanas\VentanaCategoria$1.class
 Entidades\Productosticket_.class
 Entidades\Tpv.class
 Ventanas\VentanaPedido$1.class
