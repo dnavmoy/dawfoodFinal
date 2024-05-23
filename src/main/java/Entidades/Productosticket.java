@@ -46,15 +46,18 @@ public class Productosticket implements Serializable {
     }
 
        
-    public Productosticket(ProductosticketPK productosticketPK) {
-        this.productosticketPK = productosticketPK;
-    }
+//    public Productosticket(ProductosticketPK productosticketPK) {
+//        this.productosticketPK = productosticketPK;
+//    }
 
     public Productosticket(ProductosticketPK productosticketPK, int cantidad) {
         this.productosticketPK = productosticketPK;
         this.cantidad = cantidad;
     }
-
+//
+//    public Productosticket(int idProducto, int idTicket) {
+//        this.productosticketPK = new ProductosticketPK(idProducto, idTicket);
+//    }
 
     public ProductosticketPK getProductosticketPK() {
         return productosticketPK;

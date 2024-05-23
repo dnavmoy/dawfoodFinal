@@ -142,10 +142,11 @@ public class DawFoodDanielNavarro {
         carrito.getCarrito().forEach((k,v)->{
             try {
                 ProductosticketPK prueba=new ProductosticketPK(k, tc.getTicketCount());
+                System.out.println(prueba.getIdProducto());
                 Productosticket prruebaDos=new Productosticket(prueba, v);
                 System.out.println(prruebaDos.toString());
                 System.out.println(prruebaDos.getProducto().toString());
-                ptjc.create(prruebaDos);
+                //ptjc.create(prruebaDos);
                 
             } catch (Exception ex) {
                 Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
