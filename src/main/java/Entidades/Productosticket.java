@@ -9,6 +9,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -35,7 +36,7 @@ public class Productosticket implements Serializable {
     @Column(name = "Cantidad")
     private int cantidad;
     @JoinColumn(name = "IdProducto", referencedColumnName = "IdProducto", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Producto producto;
     @JoinColumn(name = "IdTicket", referencedColumnName = "IdTicket", insertable = false, updatable = false)
     @ManyToOne(optional = false)
@@ -44,6 +45,7 @@ public class Productosticket implements Serializable {
     public Productosticket() {
     }
 
+       
     public Productosticket(ProductosticketPK productosticketPK) {
         this.productosticketPK = productosticketPK;
     }
@@ -53,9 +55,6 @@ public class Productosticket implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Productosticket(int idProducto, int idTicket) {
-        this.productosticketPK = new ProductosticketPK(idProducto, idTicket);
-    }
 
     public ProductosticketPK getProductosticketPK() {
         return productosticketPK;
@@ -111,7 +110,7 @@ public class Productosticket implements Serializable {
 
     @Override
     public String toString() {
-        return "Ventanas.Productosticket[ productosticketPK=" + productosticketPK + " ]";
+        return "Ventanas.Productosticket[ productosticketPK=" + productosticketPK + "cantidad"+cantidad+" ]";
     }
     
 }

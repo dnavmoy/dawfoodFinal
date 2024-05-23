@@ -177,7 +177,7 @@ public class PasarelaPago extends javax.swing.JDialog {
                      Integer.parseInt(jTextField4.getText()))) {
                 JOptionPane.showMessageDialog(null, "pago correcto");
                 try{
-                    DawFoodDanielNavarro.crearTicket(padre.totalPedido(), padre.totalPedidoIva(),DawFoodDanielNavarro.obtenerTpv());
+                    DawFoodDanielNavarro.crearTicket(padre.totalPedido(), padre.totalPedidoIva(),DawFoodDanielNavarro.obtenerTpv(),padre.getCarrito());
                     padre.getCarrito().getCarrito().forEach((k,v)->{
                        DawFoodDanielNavarro.cambiarStock(v*-1, k-1);
                         

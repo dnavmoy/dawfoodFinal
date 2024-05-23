@@ -6,6 +6,9 @@ package Ventanas;
 
 import Entidades.Producto;
 import Entidades.ProductoJpaController;
+import Entidades.Productosticket;
+import Entidades.ProductosticketJpaController;
+import Entidades.ProductosticketPK;
 import Entidades.Ticket;
 import Entidades.TicketJpaController;
 import Entidades.Tpv;
@@ -125,16 +128,30 @@ public class DawFoodDanielNavarro {
     private static final ProductoJpaController pc = new ProductoJpaController(emf);
     private static final TicketJpaController tc = new TicketJpaController(emf);
     private static final TpvJpaController tpvc = new TpvJpaController(emf);
+    private static final ProductosticketJpaController ptjc = new ProductosticketJpaController(emf);
     
     public static Tpv obtenerTpv(){
         return tpvc.findTpv(1);
     }
     
-    public static void crearTicket(double totalPedido,double TotalIva,Tpv tpv){
+    public static void crearTicket(double totalPedido,double TotalIva,Tpv tpv,Carrito carrito){
         
         Date date = Date.from(Instant.now());
         
         tc.create(new Ticket(1, numPedido++, 1, date, totalPedido, TotalIva,tpv));
+        carrito.getCarrito().forEach((k,v)->{
+            try {
+                ProductosticketPK prueba=new ProductosticketPK(k, tc.getTicketCount());
+                Productosticket prruebaDos=new Productosticket(prueba, v);
+                System.out.println(prruebaDos.toString());
+                System.out.println(prruebaDos.getProducto().toString());
+                ptjc.create(prruebaDos);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        });
     }
     
     public static void cambiarStock(int cantidad,int id){

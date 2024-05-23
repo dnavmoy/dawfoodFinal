@@ -34,6 +34,7 @@ public class ProductosticketJpaController implements Serializable {
         if (productosticket.getProductosticketPK() == null) {
             productosticket.setProductosticketPK(new ProductosticketPK());
         }
+  
         productosticket.getProductosticketPK().setIdProducto(productosticket.getProducto().getIdProducto());
         productosticket.getProductosticketPK().setIdTicket(productosticket.getTicket().getIdTicket());
         EntityManager em = null;
