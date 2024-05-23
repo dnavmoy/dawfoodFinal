@@ -16,7 +16,8 @@ public class VentanaPedido extends javax.swing.JDialog {
 
     private VentanaUsuario padre;
     private double total = 0;
-
+    private double totalIva = 0;
+    
     //private String categoria;
     /**
      * Creates new form VentanaCategoria
@@ -129,14 +130,15 @@ public class VentanaPedido extends javax.swing.JDialog {
         jTable2.getColumnModel().getColumn(0).setMinWidth(0);
         //mostrar el total del carrito->metodo recorre el map y calcula total. Muestra total en Jtextfield
         calculartotal();
-        jTextField1.setText(String.valueOf(total));
+        jTextField1.setText(String.valueOf(total+totalIva));
     }
 
     protected void calculartotal() {
         this.total = 0;
         padre.getCarrito().getCarrito().forEach((k, v) -> {
-            this.total += ((DawFoodDanielNavarro.getListaProductos().get(k - 1).getPrecio())
-                    * (1 + (DawFoodDanielNavarro.getListaProductos().get(k - 1).getIva() / 100)))
+            this.total += ((DawFoodDanielNavarro.getListaProductos().get(k - 1).getPrecio())* v);
+            this.totalIva+=((DawFoodDanielNavarro.getListaProductos().get(k - 1).getPrecio())
+                    * (DawFoodDanielNavarro.getListaProductos().get(k - 1).getIva() / 100))
                     * v;
         });
 
@@ -149,6 +151,12 @@ public class VentanaPedido extends javax.swing.JDialog {
     
     protected double totalPedido(){
         return this.total;
+    }
+    protected double totalPedidoIva(){
+        return this.totalIva;
+    }
+    protected Carrito getCarrito(){
+        return padre.getCarrito();
     }
 
     /**
@@ -331,7 +339,7 @@ public class VentanaPedido extends javax.swing.JDialog {
                 cargarDatosJTable(jComboBox1.getSelectedItem().toString());
             }
             cargarDatosJTable2();
-            System.out.println(padre.getCarrito().getCarrito().toString() + "prueba");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "selecciona un producto");
         }
@@ -384,6 +392,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         // TODO add your handling code here:
         PasarelaPago pago = new PasarelaPago(this, true);
         pago.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
 

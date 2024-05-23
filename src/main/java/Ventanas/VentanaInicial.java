@@ -4,12 +4,15 @@
  */
 package Ventanas;
 
+import Entidades.Tpv;
+
 /**
  *
  * @author daniel
  */
 public class VentanaInicial extends javax.swing.JFrame {
 
+    private Tpv tpv;
     /**
      * Creates new form VentanaInicial
      */

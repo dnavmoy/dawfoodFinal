@@ -6,6 +6,7 @@ package Entidades;
 
 import Entidades.Productosticket;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -23,6 +24,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+
+// cuidado que has cambiado DAte por localDate!!!
 
 /**
  *
@@ -75,13 +79,14 @@ public class Ticket implements Serializable {
         this.idTicket = idTicket;
     }
 
-    public Ticket(Integer idTicket, int numPedido, int codTransaccion, Date fecha, double totalPedido, double totalIva) {
+    public Ticket(Integer idTicket, int numPedido, int codTransaccion, Date fecha, double totalPedido, double totalIva,Tpv codigo) {
         this.idTicket = idTicket;
         this.numPedido = numPedido;
         this.codTransaccion = codTransaccion;
         this.fecha = fecha;
         this.totalPedido = totalPedido;
         this.totalIva = totalIva;
+        this.codigoTpv= codigo;
     }
 
     public Integer getIdTicket() {

@@ -32,6 +32,7 @@ public class VentanaUsuario extends javax.swing.JDialog {
     protected List<Producto> getListaProductos(){
         return listaProductos;
     }
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -120,6 +121,7 @@ public class VentanaUsuario extends javax.swing.JDialog {
         VentanaPedido ventanaPedido = new VentanaPedido(this, true);
         
         ventanaPedido.setVisible(true);
+        this.carrito = new Carrito();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

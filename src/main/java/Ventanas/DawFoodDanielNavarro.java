@@ -6,10 +6,21 @@ package Ventanas;
 
 import Entidades.Producto;
 import Entidades.ProductoJpaController;
+import Entidades.Ticket;
+import Entidades.TicketJpaController;
+import Entidades.Tpv;
+import Entidades.TpvJpaController;
+import Entidades.exceptions.NonexistentEntityException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
@@ -24,7 +35,7 @@ public class DawFoodDanielNavarro {
     //esto va a provocar problemas al editar productos-> cambiar por busqueda de idproducto
     //en lista productos
     
-    
+    private static int numPedido=0;
     public static boolean pasarelaPago(double cantidad,int numero,LocalDate fecha, int cvv) {
 
        
@@ -112,17 +123,42 @@ public class DawFoodDanielNavarro {
     
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Dawfood");
     private static final ProductoJpaController pc = new ProductoJpaController(emf);
+    private static final TicketJpaController tc = new TicketJpaController(emf);
+    private static final TpvJpaController tpvc = new TpvJpaController(emf);
     
+    public static Tpv obtenerTpv(){
+        return tpvc.findTpv(1);
+    }
     
-   
-    
-    public static void mostrarProductos() {
-        System.out.println("--------- Listado de Productos -------------");
-        pc.findProductoEntities().forEach(System.out::println);
+    public static void crearTicket(double totalPedido,double TotalIva,Tpv tpv){
         
-        System.out.println("--------------------------------------------");
+        Date date = Date.from(Instant.now());
+        
+        tc.create(new Ticket(1, numPedido++, 1, date, totalPedido, TotalIva,tpv));
+    }
+    
+    public static void cambiarStock(int cantidad,int id){
+        Producto editar = getListaProductos().get(id);
+        editar.setStock(editar.getStock()+cantidad);
+        try {
+            pc.edit(editar);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
+    
+   
+//    
+//    public static void mostrarProductos() {
+//        System.out.println("--------- Listado de Productos -------------");
+//        pc.findProductoEntities().forEach(System.out::println);
+//        
+//        System.out.println("--------------------------------------------");
+//        
+//    }
     
     public static List<Producto> getListaProductos(){
         return pc.findProductoEntities();

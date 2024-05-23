@@ -22,7 +22,8 @@ public class PasarelaPago extends javax.swing.JDialog {
         super(ventana, modal);
         padre = ventana;
         initComponents();
-        jTextField5.setText(String.valueOf(padre.totalPedido()));
+        jTextField5.setText(String.valueOf(padre.totalPedido()+padre.totalPedidoIva()));
+        jTextField5.setEditable(false);
         jTextField1.setText("4321");
         jTextField2.setText("12");
         jTextField3.setText("2024");
@@ -175,11 +176,21 @@ public class PasarelaPago extends javax.swing.JDialog {
                     enviar,
                      Integer.parseInt(jTextField4.getText()))) {
                 JOptionPane.showMessageDialog(null, "pago correcto");
+                try{
+                    DawFoodDanielNavarro.crearTicket(padre.totalPedido(), padre.totalPedidoIva(),DawFoodDanielNavarro.obtenerTpv());
+                    padre.getCarrito().getCarrito().forEach((k,v)->{
+                       DawFoodDanielNavarro.cambiarStock(v*-1, k-1);
+                        
+                    });
+                }catch(Exception e ){
+                    JOptionPane.showMessageDialog(null, "fallo con sql");
+                }
+                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "introduce fecha valida");
         }
-        
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
