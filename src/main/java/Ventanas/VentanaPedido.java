@@ -132,7 +132,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         jTextField1.setText(String.valueOf(total));
     }
 
-    private void calculartotal() {
+    protected void calculartotal() {
         this.total = 0;
         padre.getCarrito().getCarrito().forEach((k, v) -> {
             this.total += ((DawFoodDanielNavarro.getListaProductos().get(k - 1).getPrecio())
@@ -145,6 +145,10 @@ public class VentanaPedido extends javax.swing.JDialog {
     private void cambiarSpinner(int maximo) {
         SpinnerNumberModel model1 = new SpinnerNumberModel(1, 1, maximo, 1);
         jSpinner1.setModel(model1);
+    }
+    
+    protected double totalPedido(){
+        return this.total;
     }
 
     /**
@@ -240,6 +244,11 @@ public class VentanaPedido extends javax.swing.JDialog {
         });
 
         jButton4.setText("Pagar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -370,6 +379,12 @@ public class VentanaPedido extends javax.swing.JDialog {
              JOptionPane.showMessageDialog(null, "selecciona un producto");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        PasarelaPago pago = new PasarelaPago(this, true);
+        pago.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
