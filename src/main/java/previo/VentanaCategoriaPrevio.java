@@ -2,18 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Ventanas;
+package previo;
 
+import previo.VentanaPedidoPrevio;
 import Entidades.Producto;
+import Ventanas.DawFoodDanielNavarro;
+import Ventanas.ModeloTablaCarrito;
+import Ventanas.ModeloTablaProducto;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author daniel
  */
-public class VentanaCategoria extends javax.swing.JDialog {
+public class VentanaCategoriaPrevio extends javax.swing.JDialog {
 
-    private VentanaPedido padre;
+    private VentanaPedidoPrevio padre;
     private double total=0;
 
     //private String categoria;
@@ -24,7 +28,7 @@ public class VentanaCategoria extends javax.swing.JDialog {
      * @param modal
      * @param texto
      */
-    public VentanaCategoria(VentanaPedido ventana, boolean modal, String texto) {
+    public VentanaCategoriaPrevio(VentanaPedidoPrevio ventana, boolean modal, String texto) {
         super(ventana, modal);
         padre = ventana;
         initComponents();
