@@ -16,6 +16,11 @@ import javax.persistence.Persistence;
  */
 public class DawFoodDanielNavarro {
 
+    // en pedido, buscas por index no por id de producto al añadir quitar etc,
+    //esto va a provocar problemas al editar productos-> cambiar por busqueda de idproducto
+    //en lista productos
+    
+    
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Dawfood");
     private static final ProductoJpaController pc = new ProductoJpaController(emf);
     

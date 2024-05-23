@@ -4,6 +4,9 @@
  */
 package Ventanas;
 
+import Entidades.Producto;
+import java.util.List;
+
 /**
  *
  * @author daniel
@@ -12,6 +15,7 @@ public class VentanaUsuario extends javax.swing.JDialog {
 
     private VentanaInicial padre;
     private Carrito carrito;
+    private List<Producto> listaProductos;
     
     /**
      * Creates new form VentanaUsuario
@@ -19,10 +23,15 @@ public class VentanaUsuario extends javax.swing.JDialog {
     public VentanaUsuario(VentanaInicial ventana, boolean modal) {
         super(ventana, modal);
         padre=ventana;
+        listaProductos = DawFoodDanielNavarro.getListaProductos();
         initComponents();
          this.carrito = new Carrito();
     }
 
+    
+    protected List<Producto> getListaProductos(){
+        return listaProductos;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

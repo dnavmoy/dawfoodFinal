@@ -6,6 +6,7 @@ package Ventanas;
 
 import Entidades.Producto;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
 public class VentanaPedido extends javax.swing.JDialog {
 
     private VentanaUsuario padre;
-    private double total=0;
+    private double total = 0;
 
     //private String categoria;
     /**
@@ -30,6 +31,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         initComponents();
         cargarDatosJTable("comida");
         cargarDatosJTable2();
+        cambiarSpinner(1);
     }
 
     private void cargarDatosJTable(String texto) {
@@ -58,17 +60,19 @@ public class VentanaPedido extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         //List<Producto> = ProductoJpaController.g
-        for (Producto p : DawFoodDanielNavarro.getListaProductos()) {
+        for (Producto p : padre.getListaProductos()) {
             try {
-                if (p.getCodCategoria().getCodCategoria() >= numMin && p.getCodCategoria().getCodCategoria() <= numMax) {
-                    fila[0] = p.getIdProducto();
-                    fila[1] = p.getDescripcion();
-                    fila[2] = p.getPrecio();
-                    fila[3] = p.getIva();
-                    fila[4] = p.getStock();
-                    modelo.addRow(fila);
-                }
+                if (p.getStock() > 1) {
 
+                    if (p.getCodCategoria().getCodCategoria() >= numMin && p.getCodCategoria().getCodCategoria() <= numMax) {
+                        fila[0] = p.getIdProducto();
+                        fila[1] = p.getDescripcion();
+                        fila[2] = p.getPrecio();
+                        fila[3] = p.getIva();
+                        fila[4] = p.getStock();
+                        modelo.addRow(fila);
+                    }
+                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "producto no encontrado");
             }
@@ -91,7 +95,7 @@ public class VentanaPedido extends javax.swing.JDialog {
 
     private void cargarDatosJTable2() {
         //jtable2 para mostrar el carrito
-        
+
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asfechaNacimientoocia al JTable
         ModeloTablaCarrito tablaCarrito = new ModeloTablaCarrito();
@@ -102,17 +106,16 @@ public class VentanaPedido extends javax.swing.JDialog {
         // cada celda del array el valor del atributo de esa persona
         //List<Producto> = ProductoJpaController.g
 
-        padre.getCarrito().getCarrito().forEach((k,v)-> {
+        padre.getCarrito().getCarrito().forEach((k, v) -> {
             fila[0] = k;
-            fila[1] = DawFoodDanielNavarro.getListaProductos().get(k-1).getDescripcion();
-            fila[2] = DawFoodDanielNavarro.getListaProductos().get(k-1).getPrecio();
-            fila[3] = DawFoodDanielNavarro.getListaProductos().get(k-1).getIva();
+            fila[1] = padre.getListaProductos().get(k - 1).getDescripcion();
+            fila[2] = padre.getListaProductos().get(k - 1).getPrecio();
+            fila[3] = padre.getListaProductos().get(k - 1).getIva();
             fila[4] = v;
             tablaCarrito.addRow(fila);
-            
-            
-                });
-        
+
+        });
+
         // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
         // Decimos al JTable el modelo a usar
         jTable2.setModel(tablaCarrito);
@@ -129,16 +132,21 @@ public class VentanaPedido extends javax.swing.JDialog {
         jTextField1.setText(String.valueOf(total));
     }
 
-    private  void calculartotal(){
-        this.total=0;
-         padre.getCarrito().getCarrito().forEach((k,v)-> {
-                    this.total+=((DawFoodDanielNavarro.getListaProductos().get(k-1).getPrecio())*
-                                (1+(DawFoodDanielNavarro.getListaProductos().get(k-1).getIva()/100)))                            
-                            *v;    
-                });
-        
+    private void calculartotal() {
+        this.total = 0;
+        padre.getCarrito().getCarrito().forEach((k, v) -> {
+            this.total += ((DawFoodDanielNavarro.getListaProductos().get(k - 1).getPrecio())
+                    * (1 + (DawFoodDanielNavarro.getListaProductos().get(k - 1).getIva() / 100)))
+                    * v;
+        });
+
     }
-    
+
+    private void cambiarSpinner(int maximo) {
+        SpinnerNumberModel model1 = new SpinnerNumberModel(1, 1, maximo, 1);
+        jSpinner1.setModel(model1);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,6 +165,9 @@ public class VentanaPedido extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -200,6 +211,11 @@ public class VentanaPedido extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTable1FocusGained(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         jButton1.setText("Añadir");
@@ -216,27 +232,45 @@ public class VentanaPedido extends javax.swing.JDialog {
             }
         });
 
+        jButton3.setText("Quitar Producto");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Pagar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(52, 52, 52)
+                        .addGap(42, 42, 42)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton4)))))
                 .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
@@ -250,7 +284,11 @@ public class VentanaPedido extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,25 +297,35 @@ public class VentanaPedido extends javax.swing.JDialog {
                         .addGap(29, 29, 29)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int fila = jTable1.getSelectedRow();
-        int idProducto = (int) jTable1.getValueAt(fila, 0);
-        
-        if (padre.getCarrito().getCarrito().containsKey(idProducto)) {
-            padre.getCarrito().getCarrito().put(idProducto, padre.getCarrito().getCarrito().get(idProducto) + 1);            
-        } else {            
-            padre.getCarrito().getCarrito().put(idProducto, 1);
+
+        try {
+            int fila = jTable1.getSelectedRow();
+            int idProducto = (int) jTable1.getValueAt(fila, 0);
+            if (padre.getCarrito().getCarrito().containsKey(idProducto)) {
+                padre.getCarrito().getCarrito().put(idProducto, padre.getCarrito().getCarrito().get(idProducto) + (int) jSpinner1.getValue());
+                padre.getListaProductos().get(idProducto - 1).setStock(padre.getListaProductos().get(idProducto - 1).getStock() - (int) jSpinner1.getValue());
+                cargarDatosJTable(jComboBox1.getSelectedItem().toString());
+            } else {
+                padre.getCarrito().getCarrito().put(idProducto, (int) jSpinner1.getValue());
+                padre.getListaProductos().get(idProducto - 1).setStock(padre.getListaProductos().get(idProducto - 1).getStock() - (int) jSpinner1.getValue());
+                cargarDatosJTable(jComboBox1.getSelectedItem().toString());
+            }
+            cargarDatosJTable2();
+            System.out.println(padre.getCarrito().getCarrito().toString() + "prueba");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "selecciona un producto");
         }
-        cargarDatosJTable2();
-        System.out.println(padre.getCarrito().getCarrito().toString()+"prueba");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -295,14 +343,45 @@ public class VentanaPedido extends javax.swing.JDialog {
         cargarDatosJTable(jComboBox1.getSelectedItem().toString());
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jTable1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTable1FocusGained
+        // TODO add your handling code here:
+        int fila = jTable1.getSelectedRow();
+        int idProducto = (int) jTable1.getValueAt(fila, 0);
+
+        int stock = padre.getListaProductos().get(idProducto - 1).getStock();
+        cambiarSpinner(stock);
+    }//GEN-LAST:event_jTable1FocusGained
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try{
+        int fila = jTable2.getSelectedRow();
+        int idProducto = (int) jTable2.getValueAt(fila, 0);
+
+        padre.getListaProductos().get(idProducto - 1).setStock(
+                padre.getListaProductos().get(idProducto - 1).getStock()
+                + padre.getCarrito().getCarrito().get(idProducto)
+        );
+        cargarDatosJTable(jComboBox1.getSelectedItem().toString());
+        padre.getCarrito().getCarrito().remove(idProducto);
+        cargarDatosJTable2();
+
+        }catch(Exception e ){
+             JOptionPane.showMessageDialog(null, "selecciona un producto");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
