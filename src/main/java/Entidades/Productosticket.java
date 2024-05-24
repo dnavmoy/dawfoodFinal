@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import Ventanas.DawFoodDanielNavarro;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -36,7 +37,7 @@ public class Productosticket implements Serializable {
     @Column(name = "Cantidad")
     private int cantidad;
     @JoinColumn(name = "IdProducto", referencedColumnName = "IdProducto", insertable = false, updatable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     private Producto producto;
     @JoinColumn(name = "IdTicket", referencedColumnName = "IdTicket", insertable = false, updatable = false)
     @ManyToOne(optional = false)
@@ -46,18 +47,20 @@ public class Productosticket implements Serializable {
     }
 
        
-//    public Productosticket(ProductosticketPK productosticketPK) {
-//        this.productosticketPK = productosticketPK;
-//    }
+    public Productosticket(ProductosticketPK productosticketPK) {
+        this.productosticketPK = productosticketPK;
+    }
 
     public Productosticket(ProductosticketPK productosticketPK, int cantidad) {
         this.productosticketPK = productosticketPK;
+        producto=DawFoodDanielNavarro.getListaProductos().get(productosticketPK.getIdProducto()-1);
+        ticket=DawFoodDanielNavarro.getListaTickets().get(productosticketPK.getIdTicket()-1);
         this.cantidad = cantidad;
     }
-//
-//    public Productosticket(int idProducto, int idTicket) {
-//        this.productosticketPK = new ProductosticketPK(idProducto, idTicket);
-//    }
+
+    public Productosticket(int idProducto, int idTicket) {
+        this.productosticketPK = new ProductosticketPK(idProducto, idTicket);
+    }
 
     public ProductosticketPK getProductosticketPK() {
         return productosticketPK;
