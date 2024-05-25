@@ -32,7 +32,11 @@ import javax.persistence.Table;
     @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p WHERE p.precio = :precio"),
     @NamedQuery(name = "Producto.findByIva", query = "SELECT p FROM Producto p WHERE p.iva = :iva"),
-    @NamedQuery(name = "Producto.findByStock", query = "SELECT p FROM Producto p WHERE p.stock = :stock")})
+    @NamedQuery(name = "Producto.findByStock", query = "SELECT p FROM Producto p WHERE p.stock = :stock"),
+    @NamedQuery(name = "Producto.findByCodCategoria", query = "SELECT p FROM Producto p WHERE p.codCategoria = :codCategoria"),
+    //@NamedQuery(name = "Producto.findBycoso", query = "SELECT p FROM Producto p WHERE p.codCategoria = :codCategoria"),
+    //@NamedQuery(name = "Producto.update", query = "UPDATE Producto p SET p.Descripcion = :Descripcion ,p.Precio = :Precio ,p.Iva = :Iva ,p.Stock= :Stock, p.CodCategoria= :CodCategoria WHERE p.IdProducto= :IdProducto ")
+})
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,8 +57,8 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "Stock")
     private int stock;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
-    private Collection<Productosticket> productosticketCollection;
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
+    //private Collection<Productosticket> productosticketCollection;
     @JoinColumn(name = "CodCategoria", referencedColumnName = "CodCategoria")
     @ManyToOne(optional = false)
     private Categorias codCategoria;
@@ -66,12 +70,13 @@ public class Producto implements Serializable {
         this.idProducto = idProducto;
     }
 
-    public Producto(Integer idProducto, String descripcion, float precio, float iva, int stock) {
+    public Producto(Integer idProducto, String descripcion, float precio, float iva, int stock,int codigocategoria) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.precio = precio;
         this.iva = iva;
         this.stock = stock;
+        this.codCategoria=new Categorias(codigocategoria);
     }
 
     public Integer getIdProducto() {
@@ -114,13 +119,13 @@ public class Producto implements Serializable {
         this.stock = stock;
     }
 
-    public Collection<Productosticket> getProductosticketCollection() {
-        return productosticketCollection;
-    }
+    //public Collection<Productosticket> getProductosticketCollection() {
+    //    return productosticketCollection;
+    //}
 
-    public void setProductosticketCollection(Collection<Productosticket> productosticketCollection) {
-        this.productosticketCollection = productosticketCollection;
-    }
+    //public void setProductosticketCollection(Collection<Productosticket> productosticketCollection) {
+    //    this.productosticketCollection = productosticketCollection;
+    //}
 
     public Categorias getCodCategoria() {
         return codCategoria;
@@ -159,7 +164,7 @@ public class Producto implements Serializable {
         sb.append(", precio=").append(precio);
         sb.append(", iva=").append(iva);
         sb.append(", stock=").append(stock);
-        sb.append(", productosticketCollection=").append(productosticketCollection);
+        //sb.append(", productosticketCollection=").append(productosticketCollection);
         sb.append(", codCategoria=").append(codCategoria);
         sb.append('}');
         return sb.toString();

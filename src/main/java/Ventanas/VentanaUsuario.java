@@ -4,6 +4,7 @@
  */
 package Ventanas;
 
+import Entidades.Categorias;
 import Entidades.Producto;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class VentanaUsuario extends javax.swing.JDialog {
         listaProductos = DawFoodDanielNavarro.getListaProductos();
         initComponents();
          this.carrito = new Carrito();
+         
+         
     }
 
     

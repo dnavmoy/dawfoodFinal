@@ -7,8 +7,11 @@ package Entidades;
 import Entidades.Productosticket;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -87,6 +90,7 @@ public class Ticket implements Serializable {
         this.totalPedido = totalPedido;
         this.totalIva = totalIva;
         this.codigoTpv= codigo;
+        this.productosticketCollection = new ArrayList<Productosticket>();
     }
 
     public Integer getIdTicket() {
@@ -141,7 +145,7 @@ public class Ticket implements Serializable {
         return productosticketCollection;
     }
 
-    public void setProductosticketCollection(Collection<Productosticket> productosticketCollection) {
+    public void setProductosticketCollection(ArrayList<Productosticket> productosticketCollection) {
         this.productosticketCollection = productosticketCollection;
     }
 

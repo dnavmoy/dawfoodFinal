@@ -50,7 +50,7 @@ public class TicketJpaController implements Serializable {
                 productosticketCollectionProductosticketToAttach = em.getReference(productosticketCollectionProductosticketToAttach.getClass(), productosticketCollectionProductosticketToAttach.getProductosticketPK());
                 attachedProductosticketCollection.add(productosticketCollectionProductosticketToAttach);
             }
-            ticket.setProductosticketCollection(attachedProductosticketCollection);
+            ticket.setProductosticketCollection((ArrayList<Productosticket>) attachedProductosticketCollection);
             em.persist(ticket);
             if (codigoTpv != null) {
                 codigoTpv.getTicketCollection().add(ticket);
@@ -105,7 +105,7 @@ public class TicketJpaController implements Serializable {
                 attachedProductosticketCollectionNew.add(productosticketCollectionNewProductosticketToAttach);
             }
             productosticketCollectionNew = attachedProductosticketCollectionNew;
-            ticket.setProductosticketCollection(productosticketCollectionNew);
+            ticket.setProductosticketCollection((ArrayList<Productosticket>) productosticketCollectionNew);
             ticket = em.merge(ticket);
             if (codigoTpvOld != null && !codigoTpvOld.equals(codigoTpvNew)) {
                 codigoTpvOld.getTicketCollection().remove(ticket);

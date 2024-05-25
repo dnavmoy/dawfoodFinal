@@ -51,11 +51,11 @@ public class ProductosticketJpaController implements Serializable {
                 ticket = em.getReference(ticket.getClass(), ticket.getIdTicket());
                 productosticket.setTicket(ticket);
             }
-            em.persist(productosticket);
-            if (producto != null) {
-                producto.getProductosticketCollection().add(productosticket);
-                producto = em.merge(producto);
-            }
+            //em.persist(productosticket);
+            //if (producto != null) {
+            //    producto.getProductosticketCollection().add(productosticket);
+            //    producto = em.merge(producto);
+            //}
             if (ticket != null) {
                 ticket.getProductosticketCollection().add(productosticket);
                 ticket = em.merge(ticket);
@@ -93,23 +93,23 @@ public class ProductosticketJpaController implements Serializable {
                 ticketNew = em.getReference(ticketNew.getClass(), ticketNew.getIdTicket());
                 productosticket.setTicket(ticketNew);
             }
-            productosticket = em.merge(productosticket);
-            if (productoOld != null && !productoOld.equals(productoNew)) {
-                productoOld.getProductosticketCollection().remove(productosticket);
-                productoOld = em.merge(productoOld);
-            }
-            if (productoNew != null && !productoNew.equals(productoOld)) {
-                productoNew.getProductosticketCollection().add(productosticket);
-                productoNew = em.merge(productoNew);
-            }
-            if (ticketOld != null && !ticketOld.equals(ticketNew)) {
-                ticketOld.getProductosticketCollection().remove(productosticket);
-                ticketOld = em.merge(ticketOld);
-            }
-            if (ticketNew != null && !ticketNew.equals(ticketOld)) {
-                ticketNew.getProductosticketCollection().add(productosticket);
-                ticketNew = em.merge(ticketNew);
-            }
+            //productosticket = em.merge(productosticket);
+            //if (productoOld != null && !productoOld.equals(productoNew)) {
+            //    productoOld.getProductosticketCollection().remove(productosticket);
+            //    productoOld = em.merge(productoOld);
+            //}
+            //if (productoNew != null && !productoNew.equals(productoOld)) {
+//                productoNew.getProductosticketCollection().add(productosticket);
+//                productoNew = em.merge(productoNew);
+//            }
+//            if (ticketOld != null && !ticketOld.equals(ticketNew)) {
+//                ticketOld.getProductosticketCollection().remove(productosticket);
+//                ticketOld = em.merge(ticketOld);
+//            }
+//            if (ticketNew != null && !ticketNew.equals(ticketOld)) {
+//                ticketNew.getProductosticketCollection().add(productosticket);
+//                ticketNew = em.merge(ticketNew);
+//            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -139,11 +139,11 @@ public class ProductosticketJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The productosticket with id " + id + " no longer exists.", enfe);
             }
-            Producto producto = productosticket.getProducto();
-            if (producto != null) {
-                producto.getProductosticketCollection().remove(productosticket);
-                producto = em.merge(producto);
-            }
+//            Producto producto = productosticket.getProducto();
+//            if (producto != null) {
+//                producto.getProductosticketCollection().remove(productosticket);
+//                producto = em.merge(producto);
+//            }
             Ticket ticket = productosticket.getTicket();
             if (ticket != null) {
                 ticket.getProductosticketCollection().remove(productosticket);

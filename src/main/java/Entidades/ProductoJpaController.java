@@ -33,9 +33,9 @@ public class ProductoJpaController implements Serializable {
     }
 
     public void create(Producto producto) {
-        if (producto.getProductosticketCollection() == null) {
-            producto.setProductosticketCollection(new ArrayList<Productosticket>());
-        }
+//        if (producto.getProductosticketCollection() == null) {
+//            producto.setProductosticketCollection(new ArrayList<Productosticket>());
+//        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -46,25 +46,25 @@ public class ProductoJpaController implements Serializable {
                 producto.setCodCategoria(codCategoria);
             }
             Collection<Productosticket> attachedProductosticketCollection = new ArrayList<Productosticket>();
-            for (Productosticket productosticketCollectionProductosticketToAttach : producto.getProductosticketCollection()) {
-                productosticketCollectionProductosticketToAttach = em.getReference(productosticketCollectionProductosticketToAttach.getClass(), productosticketCollectionProductosticketToAttach.getProductosticketPK());
-                attachedProductosticketCollection.add(productosticketCollectionProductosticketToAttach);
-            }
-            producto.setProductosticketCollection(attachedProductosticketCollection);
+//            for (Productosticket productosticketCollectionProductosticketToAttach : producto.getProductosticketCollection()) {
+//                productosticketCollectionProductosticketToAttach = em.getReference(productosticketCollectionProductosticketToAttach.getClass(), productosticketCollectionProductosticketToAttach.getProductosticketPK());
+//                attachedProductosticketCollection.add(productosticketCollectionProductosticketToAttach);
+//            }
+//            producto.setProductosticketCollection(attachedProductosticketCollection);
             em.persist(producto);
             if (codCategoria != null) {
                 codCategoria.getProductoCollection().add(producto);
                 codCategoria = em.merge(codCategoria);
             }
-            for (Productosticket productosticketCollectionProductosticket : producto.getProductosticketCollection()) {
-                Producto oldProductoOfProductosticketCollectionProductosticket = productosticketCollectionProductosticket.getProducto();
-                productosticketCollectionProductosticket.setProducto(producto);
-                productosticketCollectionProductosticket = em.merge(productosticketCollectionProductosticket);
-                if (oldProductoOfProductosticketCollectionProductosticket != null) {
-                    oldProductoOfProductosticketCollectionProductosticket.getProductosticketCollection().remove(productosticketCollectionProductosticket);
-                    oldProductoOfProductosticketCollectionProductosticket = em.merge(oldProductoOfProductosticketCollectionProductosticket);
-                }
-            }
+//            for (Productosticket productosticketCollectionProductosticket : producto.getProductosticketCollection()) {
+//                Producto oldProductoOfProductosticketCollectionProductosticket = productosticketCollectionProductosticket.getProducto();
+//                productosticketCollectionProductosticket.setProducto(producto);
+//                productosticketCollectionProductosticket = em.merge(productosticketCollectionProductosticket);
+//                if (oldProductoOfProductosticketCollectionProductosticket != null) {
+//                    oldProductoOfProductosticketCollectionProductosticket.getProductosticketCollection().remove(productosticketCollectionProductosticket);
+//                    oldProductoOfProductosticketCollectionProductosticket = em.merge(oldProductoOfProductosticketCollectionProductosticket);
+//                }
+//            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -81,17 +81,17 @@ public class ProductoJpaController implements Serializable {
             Producto persistentProducto = em.find(Producto.class, producto.getIdProducto());
             Categorias codCategoriaOld = persistentProducto.getCodCategoria();
             Categorias codCategoriaNew = producto.getCodCategoria();
-            Collection<Productosticket> productosticketCollectionOld = persistentProducto.getProductosticketCollection();
-            Collection<Productosticket> productosticketCollectionNew = producto.getProductosticketCollection();
+//            Collection<Productosticket> productosticketCollectionOld = persistentProducto.getProductosticketCollection();
+//            Collection<Productosticket> productosticketCollectionNew = producto.getProductosticketCollection();
             List<String> illegalOrphanMessages = null;
-            for (Productosticket productosticketCollectionOldProductosticket : productosticketCollectionOld) {
-                if (!productosticketCollectionNew.contains(productosticketCollectionOldProductosticket)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Productosticket " + productosticketCollectionOldProductosticket + " since its producto field is not nullable.");
-                }
-            }
+//            for (Productosticket productosticketCollectionOldProductosticket : productosticketCollectionOld) {
+//                if (!productosticketCollectionNew.contains(productosticketCollectionOldProductosticket)) {
+//                    if (illegalOrphanMessages == null) {
+//                        illegalOrphanMessages = new ArrayList<String>();
+//                    }
+//                    illegalOrphanMessages.add("You must retain Productosticket " + productosticketCollectionOldProductosticket + " since its producto field is not nullable.");
+//                }
+//            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
@@ -100,12 +100,12 @@ public class ProductoJpaController implements Serializable {
                 producto.setCodCategoria(codCategoriaNew);
             }
             Collection<Productosticket> attachedProductosticketCollectionNew = new ArrayList<Productosticket>();
-            for (Productosticket productosticketCollectionNewProductosticketToAttach : productosticketCollectionNew) {
-                productosticketCollectionNewProductosticketToAttach = em.getReference(productosticketCollectionNewProductosticketToAttach.getClass(), productosticketCollectionNewProductosticketToAttach.getProductosticketPK());
-                attachedProductosticketCollectionNew.add(productosticketCollectionNewProductosticketToAttach);
-            }
-            productosticketCollectionNew = attachedProductosticketCollectionNew;
-            producto.setProductosticketCollection(productosticketCollectionNew);
+//            for (Productosticket productosticketCollectionNewProductosticketToAttach : productosticketCollectionNew) {
+//                productosticketCollectionNewProductosticketToAttach = em.getReference(productosticketCollectionNewProductosticketToAttach.getClass(), productosticketCollectionNewProductosticketToAttach.getProductosticketPK());
+//                attachedProductosticketCollectionNew.add(productosticketCollectionNewProductosticketToAttach);
+//            }
+//            productosticketCollectionNew = attachedProductosticketCollectionNew;
+//            producto.setProductosticketCollection(productosticketCollectionNew);
             producto = em.merge(producto);
             if (codCategoriaOld != null && !codCategoriaOld.equals(codCategoriaNew)) {
                 codCategoriaOld.getProductoCollection().remove(producto);
@@ -115,17 +115,17 @@ public class ProductoJpaController implements Serializable {
                 codCategoriaNew.getProductoCollection().add(producto);
                 codCategoriaNew = em.merge(codCategoriaNew);
             }
-            for (Productosticket productosticketCollectionNewProductosticket : productosticketCollectionNew) {
-                if (!productosticketCollectionOld.contains(productosticketCollectionNewProductosticket)) {
-                    Producto oldProductoOfProductosticketCollectionNewProductosticket = productosticketCollectionNewProductosticket.getProducto();
-                    productosticketCollectionNewProductosticket.setProducto(producto);
-                    productosticketCollectionNewProductosticket = em.merge(productosticketCollectionNewProductosticket);
-                    if (oldProductoOfProductosticketCollectionNewProductosticket != null && !oldProductoOfProductosticketCollectionNewProductosticket.equals(producto)) {
-                        oldProductoOfProductosticketCollectionNewProductosticket.getProductosticketCollection().remove(productosticketCollectionNewProductosticket);
-                        oldProductoOfProductosticketCollectionNewProductosticket = em.merge(oldProductoOfProductosticketCollectionNewProductosticket);
-                    }
-                }
-            }
+//            for (Productosticket productosticketCollectionNewProductosticket : productosticketCollectionNew) {
+//                if (!productosticketCollectionOld.contains(productosticketCollectionNewProductosticket)) {
+//                    Producto oldProductoOfProductosticketCollectionNewProductosticket = productosticketCollectionNewProductosticket.getProducto();
+//                    productosticketCollectionNewProductosticket.setProducto(producto);
+//                    productosticketCollectionNewProductosticket = em.merge(productosticketCollectionNewProductosticket);
+//                    if (oldProductoOfProductosticketCollectionNewProductosticket != null && !oldProductoOfProductosticketCollectionNewProductosticket.equals(producto)) {
+//                        oldProductoOfProductosticketCollectionNewProductosticket.getProductosticketCollection().remove(productosticketCollectionNewProductosticket);
+//                        oldProductoOfProductosticketCollectionNewProductosticket = em.merge(oldProductoOfProductosticketCollectionNewProductosticket);
+//                    }
+//                }
+//            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -156,13 +156,13 @@ public class ProductoJpaController implements Serializable {
                 throw new NonexistentEntityException("The producto with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Productosticket> productosticketCollectionOrphanCheck = producto.getProductosticketCollection();
-            for (Productosticket productosticketCollectionOrphanCheckProductosticket : productosticketCollectionOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Producto (" + producto + ") cannot be destroyed since the Productosticket " + productosticketCollectionOrphanCheckProductosticket + " in its productosticketCollection field has a non-nullable producto field.");
-            }
+//            Collection<Productosticket> productosticketCollectionOrphanCheck = producto.getProductosticketCollection();
+//            for (Productosticket productosticketCollectionOrphanCheckProductosticket : productosticketCollectionOrphanCheck) {
+//                if (illegalOrphanMessages == null) {
+//                    illegalOrphanMessages = new ArrayList<String>();
+//                }
+//                illegalOrphanMessages.add("This Producto (" + producto + ") cannot be destroyed since the Productosticket " + productosticketCollectionOrphanCheckProductosticket + " in its productosticketCollection field has a non-nullable producto field.");
+//            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
