@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entidades;
+package models;
 
-import Ventanas.DawFoodDanielNavarro;
+import views.DawFoodDanielNavarro;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,9 +25,11 @@ import javax.persistence.Table;
 @Table(name = "productosticket")
 @NamedQueries({
     @NamedQuery(name = "Productosticket.findAll", query = "SELECT p FROM Productosticket p"),
-    @NamedQuery(name = "Productosticket.findByIdProducto", query = "SELECT p FROM Productosticket p WHERE p.productosticketPK.idProducto = :idProducto"),
+    @NamedQuery(name = "Productosticket.findByIdProducto", query = "SELECT Count(p) FROM Productosticket p WHERE p.productosticketPK.idProducto = :idProducto"),
     @NamedQuery(name = "Productosticket.findByIdTicket", query = "SELECT p FROM Productosticket p WHERE p.productosticketPK.idTicket = :idTicket"),
-    @NamedQuery(name = "Productosticket.findByCantidad", query = "SELECT p FROM Productosticket p WHERE p.cantidad = :cantidad")})
+    @NamedQuery(name = "Productosticket.findByCantidad", query = "SELECT p FROM Productosticket p WHERE p.cantidad = :cantidad"),
+    @NamedQuery(name = "Productosticket.findsienTicket", query = "SELECT Count(p) FROM Productosticket p WHERE p.productosticketPK.idProducto = :idProducto")
+})
 public class Productosticket implements Serializable {
 
     private static final long serialVersionUID = 1L;

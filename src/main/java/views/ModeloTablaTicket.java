@@ -1,5 +1,5 @@
 
-package Ventanas;
+package views;
 
 import javax.swing.table.DefaultTableModel;
 

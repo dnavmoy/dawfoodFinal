@@ -1,4 +1,4 @@
-package Entidades.exceptions;
+package Models.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,10 +5,10 @@
 package previo;
 
 import previo.VentanaPedidoPrevio;
-import Entidades.Producto;
-import Ventanas.DawFoodDanielNavarro;
-import Ventanas.ModeloTablaCarrito;
-import Ventanas.ModeloTablaProducto;
+import models.Producto;
+import views.DawFoodDanielNavarro;
+import views.ModeloTablaCarrito;
+import views.ModeloTablaProducto;
 import javax.swing.JOptionPane;
 
 /**

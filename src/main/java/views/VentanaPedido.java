@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Ventanas;
+package views;
 
-import Entidades.Producto;
+import models.Producto;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 
@@ -17,6 +17,7 @@ public class VentanaPedido extends javax.swing.JDialog {
     private VentanaUsuario padre;
     private double total = 0;
     private double totalIva = 0;
+    protected boolean pagado=false;
     
     //private String categoria;
     /**
@@ -63,7 +64,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         //List<Producto> = ProductoJpaController.g
         for (Producto p : padre.getListaProductos()) {
             try {
-                if (p.getStock() > 1) {
+                if (p.getStock() > 0) {
 
                     if (p.getCodCategoria().getCodCategoria() >= numMin && p.getCodCategoria().getCodCategoria() <= numMax) {
                         fila[0] = p.getIdProducto();
@@ -397,9 +398,15 @@ public class VentanaPedido extends javax.swing.JDialog {
         // TODO add your handling code here:
         PasarelaPago pago = new PasarelaPago(this, true);
         pago.setVisible(true);
-        this.dispose();
+        if(pagado){
+            this.dispose();
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    protected void setpagado(boolean b){
+        pagado=b;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

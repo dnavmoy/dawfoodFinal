@@ -1,17 +1,17 @@
 
-package Ventanas;
+package views;
 
 import javax.swing.table.DefaultTableModel;
 
 // Para usar JTable hay que asociar al JTable un objeto de tipo 
 // DefaultTableModel que contenga las columnas correspondientes
 
-public class ModeloTablaCarrito extends DefaultTableModel {
+public class ModeloTablaProducto extends DefaultTableModel {
     
-    public ModeloTablaCarrito(){
+    public ModeloTablaProducto(){
         // Se asignan los nombres de las columnas de la tabla
         // en función de los atributos que tiene la persona
-        String[] columnNames = {"Id","Descripcion","Precio","Iva","Cantidad"}; 
+        String[] columnNames = {"Id","Descripcion","Precio","Iva","Stock"}; 
         
         // Se le indica al modelo el nombre de las columnas y cantidad
         this.setColumnIdentifiers(columnNames); 
@@ -26,5 +26,6 @@ public class ModeloTablaCarrito extends DefaultTableModel {
         // En nuestro caso ninguna celda se edita
         return false;
     }
+    
 
 }

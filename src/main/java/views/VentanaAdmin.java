@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Ventanas;
+package views;
 
-import Entidades.Producto;
-import Entidades.Productosticket;
-import Entidades.Ticket;
-import java.time.LocalDate;
+import models.Producto;
+import models.Productosticket;
+import models.Ticket;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -19,16 +18,16 @@ public class VentanaAdmin extends javax.swing.JDialog {
 
     private VentanaInicial padre;
     private List<Producto> listaProductos;
+
     /**
      * Creates new form VentanaAdmin
      */
     public VentanaAdmin(VentanaInicial ventana, boolean modal) {
         super(ventana, modal);
-        padre=ventana;
+        padre = ventana;
         listaProductos = DawFoodDanielNavarro.getListaProductos();
         initComponents();
-        
-      
+
     }
 
     /**
@@ -49,6 +48,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -107,6 +107,14 @@ public class VentanaAdmin extends javax.swing.JDialog {
         });
         jMenu1.add(jMenuItem4);
 
+        jMenuItem5.setText("CambiarStock");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Cargar tickets");
@@ -157,52 +165,93 @@ public class VentanaAdmin extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //try {
-        if(jButton1.getText().equals("Editar Productos")){
+        if (jButton1.getText().equals("Editar Productos")) {
+
+            //comprobar si existe en algun ticket 
             int fila = jTable1.getSelectedRow();
             int idProducto = (int) jTable1.getValueAt(fila, 0);
+            List<Productosticket> lista = DawFoodDanielNavarro.getListaProductosTicket();
+            boolean encontrado = false;
             
-            Producto aCambiar= new Producto(idProducto, (String)jTable1.getValueAt(fila, 1), (float)jTable1.getValueAt(fila, 2), (float)jTable1.getValueAt(fila, 3),
-                    Integer.parseInt((String)jTable1.getValueAt(fila, 4)),
-                    (int)jTable1.getValueAt(fila, 5));
+            // mediante namedQuery puedo buscarlo directamente por la base de datos sin tener que 
+            //recorrer la lista entera
+            long total= DawFoodDanielNavarro.productoEnTicket(idProducto);
+            if (total>0){
+             encontrado = true;
+            }
             
+//            for (int i = 0; i < lista.size(); i++) {
+//                if (lista.get(i).getProducto().getIdProducto().equals(idProducto)) {
+//                    encontrado = true;
+//                }
+//            }
+            //si existe no lo puedo borrar, le pongo el stock a 0 para que no aparezca en la lista de pedir y creo uno nuevo con las nuevas caracteristicas
+            if (encontrado == true) {
+                JOptionPane.showMessageDialog(null, "producto encontrado en ticket, cambio stock a 0 y creo nuevo producto");
+                DawFoodDanielNavarro.setStock(0, idProducto);
+                int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
+                int codcategoria = Integer.parseInt(jTable1.getValueAt(fila, 5).toString());
+                Producto aCambiar = new Producto(DawFoodDanielNavarro.getListaProductos().get(DawFoodDanielNavarro.getListaProductos().size()-1).getIdProducto()+1,
+                        (String) jTable1.getValueAt(fila, 1), (float) jTable1.getValueAt(fila, 2), 
+                        4,
+                        //(float) jTable1.getValueAt(fila, 3),
+                        stock, codcategoria);
+                System.out.println(aCambiar.toString());
+                DawFoodDanielNavarro.crearProducto(aCambiar);
+            } else {
+                int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
+                int codcategoria = Integer.parseInt(jTable1.getValueAt(fila, 5).toString());
+                Producto aCambiar = new Producto(idProducto, (String) jTable1.getValueAt(fila, 1), (float) jTable1.getValueAt(fila, 2), (float) jTable1.getValueAt(fila, 3),
+                        stock, codcategoria);
+
+                DawFoodDanielNavarro.editarProducto(aCambiar);
+            }
+
             //DawFoodDanielNavarro.QueryUpdateProducto(aCambiar);
-            DawFoodDanielNavarro.editarProducto(aCambiar);
             listaProductos = DawFoodDanielNavarro.QueryListaProductos();
             cargarDatosJTable();
         }
-        if(jButton1.getText().equals("Borrar")){
-             int fila = jTable1.getSelectedRow();
+        if (jButton1.getText().equals("Borrar")) {
+
+            //comprobrar si esta en algun ticket
+            int fila = jTable1.getSelectedRow();
             int idProducto = (int) jTable1.getValueAt(fila, 0);
             DawFoodDanielNavarro.borrarProducto(idProducto);
         }
-            
-            listaProductos = DawFoodDanielNavarro.QueryListaProductos();
-            cargarDatosJTable();
-            
+        if (jButton1.getText().equals("Cambiar Stock")) {
+            int fila = jTable1.getSelectedRow();
+            int idProducto = (int) jTable1.getValueAt(fila, 0);
+            int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
+            DawFoodDanielNavarro.setStock(stock, idProducto);
+        }
+
+        listaProductos = DawFoodDanielNavarro.QueryListaProductos();
+        cargarDatosJTable();
+
         //} catch (Exception e) {
-         //   JOptionPane.showMessageDialog(null, "error editando");
+        //   JOptionPane.showMessageDialog(null, "error editando");
         //}
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-          int fila = jTable1.getSelectedRow();
-            int idTicket = (int) jTable1.getValueAt(fila, 0);
-            int total=0;
-            List<Productosticket> lista = DawFoodDanielNavarro.pruebaJpa(idTicket);
-            String mostrar= "Numero ticket: " + idTicket;
-            mostrar= mostrar.concat("\n Fecha: " + DawFoodDanielNavarro.getListaTickets().get(idTicket-1).getFecha());
-            mostrar= mostrar.concat("\nnombre de restaurante\n");
-            for(Productosticket pt : lista){
-                mostrar= mostrar.concat( String.valueOf(pt.getCantidad()) + " x " );
-                mostrar= mostrar.concat( pt.getProducto().getDescripcion() );
-                mostrar= mostrar.concat( " = " + pt.getCantidad()*pt.getProducto().getPrecio()+ "\n");
-                total+=pt.getCantidad()*pt.getProducto().getPrecio();
-            }
-            mostrar= mostrar.concat("-----------------");
-            mostrar= mostrar.concat("total:  "+ total);
-            JOptionPane.showMessageDialog(null, mostrar);
-         
+        int fila = jTable1.getSelectedRow();
+        int idTicket = (int) jTable1.getValueAt(fila, 0);
+        int total = 0;
+        List<Productosticket> lista = DawFoodDanielNavarro.queryListaProductosTicket(idTicket);
+        String mostrar = "Numero ticket: " + idTicket;
+        mostrar = mostrar.concat("\n Fecha: " + DawFoodDanielNavarro.getListaTickets().get(idTicket - 1).getFecha());
+        mostrar = mostrar.concat("\nnombre de restaurante\n");
+        for (Productosticket pt : lista) {
+            mostrar = mostrar.concat(String.valueOf(pt.getCantidad()) + " x ");
+            mostrar = mostrar.concat(pt.getProducto().getDescripcion());
+            mostrar = mostrar.concat(" = " + pt.getCantidad() * pt.getProducto().getPrecio() + "\n");
+            total += pt.getCantidad() * pt.getProducto().getPrecio();
+        }
+        mostrar = mostrar.concat("-----------------");
+        mostrar = mostrar.concat("total:  " + total);
+        JOptionPane.showMessageDialog(null, mostrar);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -215,8 +264,8 @@ public class VentanaAdmin extends javax.swing.JDialog {
         // TODO add your handling code here:
         jButton1.setText("Editar Productos");
         cargarDatosJTable();
-        
-        
+
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -230,17 +279,23 @@ public class VentanaAdmin extends javax.swing.JDialog {
         nuevav.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    protected List<Producto> getListaProductos(){
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        jButton1.setText("Cambiar Stock");
+        cargarDatosJTable();
+
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    protected List<Producto> getListaProductos() {
         return listaProductos;
     }
+
     private void cargarDatosJTable() {
 
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asfechaNacimientoocia al JTable
         ModeloTablaProductoEditable modelo = new ModeloTablaProductoEditable();
-       
 
-       
         // Array de object con el número de columnas del jtable
         // Para guardar cada campo de cada Persona de la lista
         Object[] fila = new Object[modelo.getColumnCount()];
@@ -250,26 +305,21 @@ public class VentanaAdmin extends javax.swing.JDialog {
         //List<Producto> = ProductoJpaController.g
         for (Producto p : getListaProductos()) {
             try {
-                                  
-                        fila[0] = p.getIdProducto();
-                        fila[1] = p.getDescripcion();
-                        fila[2] = p.getPrecio();
-                        fila[3] = p.getIva();
-                        fila[4] = p.getStock();
-                        fila[5] = p.getCodCategoria().getCodCategoria();
-                        modelo.addRow(fila);
-                   
-                
+
+                fila[0] = p.getIdProducto();
+                fila[1] = p.getDescripcion();
+                fila[2] = p.getPrecio();
+                fila[3] = p.getIva();
+                fila[4] = p.getStock();
+                fila[5] = p.getCodCategoria().getCodCategoria();
+                modelo.addRow(fila);
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "producto no encontrado");
             }
 
         }
-        
-        
-        
-        
-        
+
         // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
         // Decimos al JTable el modelo a usar
         jTable1.setModel(modelo);
@@ -289,9 +339,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asfechaNacimientoocia al JTable
         ModeloTablaTicket modelo = new ModeloTablaTicket();
-       
 
-       
         // Array de object con el número de columnas del jtable
         // Para guardar cada campo de cada Persona de la lista
         Object[] fila = new Object[modelo.getColumnCount()];
@@ -301,36 +349,26 @@ public class VentanaAdmin extends javax.swing.JDialog {
         //List<Producto> = ProductoJpaController.g
         for (Ticket p : DawFoodDanielNavarro.getListaTickets()) {
             try {
-                                  
-                        fila[0] = p.getIdTicket();
-                        fila[1] = p.getNumPedido();
-                        fila[2] = p.getCodTransaccion();
-                        fila[3] = p.getFecha();
-                        fila[4] = p.getTotalPedido();
-                        modelo.addRow(fila);
-                   
-                
+
+                fila[0] = p.getIdTicket();
+                fila[1] = p.getNumPedido();
+                fila[2] = p.getCodTransaccion();
+                fila[3] = p.getFecha();
+                fila[4] = p.getTotalPedido();
+                modelo.addRow(fila);
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "ticket no encontrado");
             }
 
         }
-        
-        
-        
-        
-        
+
         // Al finalizar el bucle el modelo tendrá tantas filas como nuestra lista
         // Decimos al JTable el modelo a usar
         jTable1.setModel(modelo);
 
-        
-
     }
 
-    
-   
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -342,6 +380,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

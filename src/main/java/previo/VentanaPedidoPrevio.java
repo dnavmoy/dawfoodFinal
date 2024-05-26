@@ -4,8 +4,8 @@
  */
 package previo;
 
-import Ventanas.Carrito;
-import Ventanas.VentanaUsuario;
+import views.Carrito;
+import views.VentanaUsuario;
 
 /**
  *

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Ventanas;
+package views;
 
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
@@ -176,10 +176,11 @@ public class PasarelaPago extends javax.swing.JDialog {
                     enviar,
                      Integer.parseInt(jTextField4.getText()))) {
                 JOptionPane.showMessageDialog(null, "pago correcto");
+                padre.setpagado(true);
                 try{
                     DawFoodDanielNavarro.crearTicket(padre.totalPedido(), padre.totalPedidoIva(),DawFoodDanielNavarro.obtenerTpv(),padre.getCarrito());
                     padre.getCarrito().getCarrito().forEach((k,v)->{
-                       DawFoodDanielNavarro.cambiarStock(v*-1, k-1);
+                       DawFoodDanielNavarro.cambiarStock(v, k);
                         
                     });
                 }catch(Exception e ){

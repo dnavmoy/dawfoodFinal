@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entidades;
+package controllers;
 
-import Entidades.exceptions.NonexistentEntityException;
-import Entidades.exceptions.PreexistingEntityException;
+import Models.exceptions.NonexistentEntityException;
+import Models.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -14,6 +14,10 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import models.Producto;
+import models.Productosticket;
+import models.ProductosticketPK;
+import models.Ticket;
 
 /**
  *

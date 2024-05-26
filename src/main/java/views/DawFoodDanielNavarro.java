@@ -2,19 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package Ventanas;
+package views;
 
-import Entidades.Categorias;
-import Entidades.Producto;
-import Entidades.ProductoJpaController;
-import Entidades.Productosticket;
-import Entidades.ProductosticketJpaController;
-import Entidades.ProductosticketPK;
-import Entidades.Ticket;
-import Entidades.TicketJpaController;
-import Entidades.Tpv;
-import Entidades.TpvJpaController;
-import Entidades.exceptions.NonexistentEntityException;
+import models.Producto;
+import controllers.ProductoJpaController;
+import models.Productosticket;
+import controllers.ProductosticketJpaController;
+import models.ProductosticketPK;
+import models.Ticket;
+import controllers.TicketJpaController;
+import models.Tpv;
+import controllers.TpvJpaController;
+import Models.exceptions.NonexistentEntityException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,7 +39,7 @@ public class DawFoodDanielNavarro {
     
     //no pemitir borrar update de productos en tickets!
     
-    //usa algun named querys
+    //usa algun named querys,listo, buscar productos en tickets !!
     
     private static int numPedido=0;
     
@@ -148,8 +146,7 @@ public class DawFoodDanielNavarro {
     
     
     
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Dawfood");
-    
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Dawfood");    
     private static final ProductoJpaController pc = new ProductoJpaController(emf);
     private static final TicketJpaController tc = new TicketJpaController(emf);
     private static final TpvJpaController tpvc = new TpvJpaController(emf);
@@ -161,20 +158,23 @@ public class DawFoodDanielNavarro {
     
     public static List<Producto> QueryListaProductos(){
         EntityManager em = emf.createEntityManager();
-        
-        //TypedQuery<Producto> consulta = em.createNamedQuery("Producto.findByIdProducto", Producto.class);
-        
         List<Producto> lista = em.createNamedQuery("Producto.findAll").getResultList();
         return lista;
         
     }
-    public static List<Productosticket> pruebaJpa(int idTicket){
+    
+    public static List<Productosticket> queryListaProductosTicket(int idTicket){
         EntityManager em = emf.createEntityManager();
         Ticket t = em.find(Ticket.class, idTicket);
         List<Productosticket> lista =(List<Productosticket>) t.getProductosticketCollection();
         return lista;
     }
     
+    public static long productoEnTicket(int idproducto){
+        EntityManager em = emf.createEntityManager();
+        long cuenta = ((long)em.createNamedQuery("Productosticket.findsienTicket").setParameter("idProducto", idproducto).getSingleResult());
+        return cuenta;
+    }
     
 //    public static void QueryUpdateProducto(Producto p){
 //        EntityManager em = emf.createEntityManager();
@@ -226,8 +226,9 @@ public class DawFoodDanielNavarro {
     }
     
     public static void cambiarStock(int cantidad,int id){
-        Producto editar = getListaProductos().get(id);
-        editar.setStock(editar.getStock()+cantidad);
+        int posicion = buscarEnListaPosicion(getListaProductos(), id);
+        Producto editar = getListaProductos().get(posicion);
+        editar.setStock(editar.getStock()-cantidad);
         try {
             pc.edit(editar);
         } catch (NonexistentEntityException ex) {
@@ -236,6 +237,19 @@ public class DawFoodDanielNavarro {
             Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public static void setStock(int cantidad,int id){
+        int posicion = buscarEnListaPosicion(getListaProductos(), id);
+        Producto editar = getListaProductos().get(posicion);
+        editar.setStock(cantidad);
+        try {
+            pc.edit(editar);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(DawFoodDanielNavarro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
      public static void editarProducto(Producto p){
         try {
@@ -252,14 +266,6 @@ public class DawFoodDanielNavarro {
          pc.create(p);
          
      }
-//    
-//    public static void mostrarProductos() {
-//        System.out.println("--------- Listado de Productos -------------");
-//        pc.findProductoEntities().forEach(System.out::println);
-//        
-//        System.out.println("--------------------------------------------");
-//        
-//    }
     
     public static List<Producto> getListaProductos(){
         return pc.findProductoEntities();
@@ -269,6 +275,9 @@ public class DawFoodDanielNavarro {
         return tc.findTicketEntities();
     }
     
+    public static List<Productosticket> getListaProductosTicket(){
+        return ptjc.findProductosticketEntities();
+    }
     
     
 }
