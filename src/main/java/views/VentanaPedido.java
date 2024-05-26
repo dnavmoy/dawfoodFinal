@@ -4,6 +4,10 @@
  */
 package views;
 
+import views.modelosTabla.ModeloTablaProducto;
+import views.modelosTabla.ModeloTablaCarrito;
+import metodos.DawFoodDanielNavarro;
+import clases.Carrito;
 import models.Producto;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
@@ -234,6 +238,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(jTable1);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addcarrito.png"))); // NOI18N
         jButton1.setText("Añadir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,6 +253,7 @@ public class VentanaPedido extends javax.swing.JDialog {
             }
         });
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/quitarproducto.png"))); // NOI18N
         jButton3.setText("Quitar Producto");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,8 +360,8 @@ public class VentanaPedido extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        //this.dispose();
-        System.exit(0);
+        this.dispose();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

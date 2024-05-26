@@ -4,7 +4,7 @@
  */
 package models;
 
-import views.DawFoodDanielNavarro;
+import metodos.DawFoodDanielNavarro;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;

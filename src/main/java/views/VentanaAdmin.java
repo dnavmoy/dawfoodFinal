@@ -4,6 +4,9 @@
  */
 package views;
 
+import views.modelosTabla.ModeloTablaTicket;
+import views.modelosTabla.ModeloTablaProductoEditable;
+import metodos.DawFoodDanielNavarro;
 import models.Producto;
 import models.Productosticket;
 import models.Ticket;

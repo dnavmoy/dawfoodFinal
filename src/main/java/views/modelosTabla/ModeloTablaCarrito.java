@@ -1,17 +1,17 @@
 
-package views;
+package views.modelosTabla;
 
 import javax.swing.table.DefaultTableModel;
 
 // Para usar JTable hay que asociar al JTable un objeto de tipo 
 // DefaultTableModel que contenga las columnas correspondientes
 
-public class ModeloTablaProductoEditable extends DefaultTableModel {
+public class ModeloTablaCarrito extends DefaultTableModel {
     
-    public ModeloTablaProductoEditable(){
+    public ModeloTablaCarrito(){
         // Se asignan los nombres de las columnas de la tabla
         // en función de los atributos que tiene la persona
-        String[] columnNames = {"Id","Descripcion","Precio","Iva","Stock","codigoCategoria"}; 
+        String[] columnNames = {"Id","Descripcion","Precio","Iva","Cantidad"}; 
         
         // Se le indica al modelo el nombre de las columnas y cantidad
         this.setColumnIdentifiers(columnNames); 
@@ -24,8 +24,7 @@ public class ModeloTablaProductoEditable extends DefaultTableModel {
         // Aquí devolvemos true o false según queramos que una celda
         // identificada por fila,columna (row,column), sea o no editable
         // En nuestro caso ninguna celda se edita
-        return true;
+        return false;
     }
-    
 
 }

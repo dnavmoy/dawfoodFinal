@@ -6,9 +6,9 @@ package previo;
 
 import previo.VentanaPedidoPrevio;
 import models.Producto;
-import views.DawFoodDanielNavarro;
-import views.ModeloTablaCarrito;
-import views.ModeloTablaProducto;
+import metodos.DawFoodDanielNavarro;
+import views.modelosTabla.ModeloTablaCarrito;
+import views.modelosTabla.ModeloTablaProducto;
 import javax.swing.JOptionPane;
 
 /**

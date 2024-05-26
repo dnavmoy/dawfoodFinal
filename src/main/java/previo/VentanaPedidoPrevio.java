@@ -4,7 +4,7 @@
  */
 package previo;
 
-import views.Carrito;
+import clases.Carrito;
 import views.VentanaUsuario;
 
 /**

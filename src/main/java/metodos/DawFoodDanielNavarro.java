@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package views;
+package metodos;
 
+import clases.Carrito;
 import models.Producto;
 import controllers.ProductoJpaController;
 import models.Productosticket;
@@ -26,6 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
+import clases.Tarjeta;
 
 /**
  *
@@ -40,6 +42,8 @@ public class DawFoodDanielNavarro {
     //no pemitir borrar update de productos en tickets!
     
     //usa algun named querys,listo, buscar productos en tickets !!
+    
+    //comprueba que el iva se calcula bien en las distintas ventanas
     
     private static int numPedido=0;
     

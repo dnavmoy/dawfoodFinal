@@ -1,5 +1,5 @@
 
-package views;
+package views.modelosTabla;
 
 import javax.swing.table.DefaultTableModel;
 
