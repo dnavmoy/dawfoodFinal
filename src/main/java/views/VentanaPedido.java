@@ -136,7 +136,8 @@ public class VentanaPedido extends javax.swing.JDialog {
         jTable2.getColumnModel().getColumn(0).setMinWidth(0);
         //mostrar el total del carrito->metodo recorre el map y calcula total. Muestra total en Jtextfield
         calculartotal();
-        jTextField1.setText(String.valueOf(total+totalIva));
+        jTextField1.setText(String.format("%.2f",total+totalIva));
+        
     }
 
     protected void calculartotal() {
@@ -145,11 +146,11 @@ public class VentanaPedido extends javax.swing.JDialog {
         padre.getCarrito().getCarrito().forEach((k, v) -> {
             int posicion = DawFoodDanielNavarro.buscarEnListaPosicion(padre.getListaProductos(), k);
             
-            this.total += Math.round((DawFoodDanielNavarro.getListaProductos().get(posicion).getPrecio())* v);
+            this.total += (DawFoodDanielNavarro.getListaProductos().get(posicion).getPrecio())* v;
             
-            this.totalIva+=Math.round(((DawFoodDanielNavarro.getListaProductos().get(posicion).getPrecio())
+            this.totalIva+=((DawFoodDanielNavarro.getListaProductos().get(posicion).getPrecio())
                     * (DawFoodDanielNavarro.getListaProductos().get(posicion).getIva() / 100))
-                    * v);
+                    * v;
         });
 
     }

@@ -175,12 +175,9 @@ public class VentanaAdmin extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         try {
-        if (jButton1.getText().equals("Editar Productos")) {
-
-            //comprobar si existe en algun ticket 
-            int fila = jTable1.getSelectedRow();
+             int fila = jTable1.getSelectedRow();
             int idProducto = (int) jTable1.getValueAt(fila, 0);
-            List<Productosticket> lista = DawFoodDanielNavarro.getListaProductosTicket();
+             List<Productosticket> lista = DawFoodDanielNavarro.getListaProductosTicket();
             boolean encontrado = false;
             
             // mediante namedQuery puedo buscarlo directamente por la base de datos sin tener que 
@@ -189,7 +186,10 @@ public class VentanaAdmin extends javax.swing.JDialog {
             if (total>0){
              encontrado = true;
             }
-            
+        if (jButton1.getText().equals("Editar Productos")) {
+
+            //comprobar si existe en algun ticket 
+
 //            for (int i = 0; i < lista.size(); i++) {
 //                if (lista.get(i).getProducto().getIdProducto().equals(idProducto)) {
 //                    encontrado = true;
@@ -201,8 +201,9 @@ public class VentanaAdmin extends javax.swing.JDialog {
                 DawFoodDanielNavarro.setStock(0, idProducto);
                 int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
                 int codcategoria = Integer.parseInt(jTable1.getValueAt(fila, 5).toString());
+                float precio = Float.parseFloat(jTable1.getValueAt(fila, 2).toString());
                 Producto aCambiar = new Producto(DawFoodDanielNavarro.getListaProductos().get(DawFoodDanielNavarro.getListaProductos().size()-1).getIdProducto()+1,
-                        (String) jTable1.getValueAt(fila, 1), (float) jTable1.getValueAt(fila, 2), 
+                        (String) jTable1.getValueAt(fila, 1), precio, 
                         4,
                         //(float) jTable1.getValueAt(fila, 3),
                         stock, codcategoria);
@@ -224,15 +225,18 @@ public class VentanaAdmin extends javax.swing.JDialog {
         if (jButton1.getText().equals("Borrar")) {
 
             //comprobrar si esta en algun ticket
-            int fila = jTable1.getSelectedRow();
-            int idProducto = (int) jTable1.getValueAt(fila, 0);
+            if (encontrado == true) {
+                JOptionPane.showMessageDialog(null, "producto encontrado en ticket, cambio stock a 0");
+            }else{
             DawFoodDanielNavarro.borrarProducto(idProducto);
+            JOptionPane.showMessageDialog(null, "producto borrado");
+            }
         }
         if (jButton1.getText().equals("Cambiar Stock")) {
-            int fila = jTable1.getSelectedRow();
-            int idProducto = (int) jTable1.getValueAt(fila, 0);
+           
             int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
             DawFoodDanielNavarro.setStock(stock, idProducto);
+            
         }
 
         listaProductos = DawFoodDanielNavarro.QueryListaProductos();
@@ -248,19 +252,19 @@ public class VentanaAdmin extends javax.swing.JDialog {
         try{
         int fila = jTable1.getSelectedRow();
         int idTicket = (int) jTable1.getValueAt(fila, 0);
-        int total = 0;
+        double total = 0;
         List<Productosticket> lista = DawFoodDanielNavarro.queryListaProductosTicket(idTicket);
         String mostrar = "Numero ticket: " + idTicket;
         mostrar = mostrar.concat("\n Fecha: " + DawFoodDanielNavarro.getListaTickets().get(idTicket - 1).getFecha());
         mostrar = mostrar.concat("\nnombre de restaurante\n");
         for (Productosticket pt : lista) {
             mostrar = mostrar.concat(String.valueOf(pt.getCantidad()) + " x ");
-            mostrar = mostrar.concat(pt.getProducto().getDescripcion());
-            mostrar = mostrar.concat(" = " + pt.getCantidad() * pt.getProducto().getPrecio() + "\n");
-            total += pt.getCantidad() * pt.getProducto().getPrecio();
+            mostrar = mostrar.concat(pt.getProducto().getDescripcion());            
+            mostrar = mostrar.concat(" = " + String.format("%.2f",pt.getCantidad() * (pt.getProducto().getPrecio()*(1+pt.getProducto().getIva()/100))) + "\n");
+            total += pt.getCantidad() * (pt.getProducto().getPrecio()*(1+pt.getProducto().getIva()/100));
         }
         mostrar = mostrar.concat("-----------------");
-        mostrar = mostrar.concat("total:  " + total);
+        mostrar = mostrar.concat("total:  " + String.format("%.2f", total));
         JOptionPane.showMessageDialog(null, mostrar);
         }catch(ArrayIndexOutOfBoundsException aioe){
             JOptionPane.showMessageDialog(null, "selecciona fila de la tabla");
@@ -302,6 +306,9 @@ public class VentanaAdmin extends javax.swing.JDialog {
         // TODO add your handling code here:
         VentanaNuevoProducto nuevav = new VentanaNuevoProducto(this, true);
         nuevav.setVisible(true);
+        listaProductos = DawFoodDanielNavarro.getListaProductos();
+        cargarDatosJTable();
+        
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -367,6 +374,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
 
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asfechaNacimientoocia al JTable
+        listaProductos = DawFoodDanielNavarro.getListaProductos();
         ModeloTablaTicket modelo = new ModeloTablaTicket();
 
         // Array de object con el número de columnas del jtable
@@ -383,7 +391,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
                 fila[1] = p.getNumPedido();
                 fila[2] = p.getCodTransaccion();
                 fila[3] = p.getFecha();
-                fila[4] = p.getTotalPedido();
+                fila[4] = p.getTotalPedido()+p.getTotalIva();
                 modelo.addRow(fila);
 
             } catch (Exception e) {
