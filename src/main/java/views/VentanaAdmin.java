@@ -30,6 +30,12 @@ public class VentanaAdmin extends javax.swing.JDialog {
         padre = ventana;
         listaProductos = DawFoodDanielNavarro.getListaProductos();
         initComponents();
+        jTable1.setVisible(false);
+        jScrollPane1.setVisible(false);
+        jButton1.setVisible(false);
+        jButton2.setVisible(false);
+        
+        
 
     }
 
@@ -85,6 +91,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTable1);
 
         jMenu1.setText("Editar Productos");
+        jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 12));
 
         jMenuItem1.setText("Editar");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +174,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        //try {
+        try {
         if (jButton1.getText().equals("Editar Productos")) {
 
             //comprobar si existe en algun ticket 
@@ -231,13 +238,14 @@ public class VentanaAdmin extends javax.swing.JDialog {
         listaProductos = DawFoodDanielNavarro.QueryListaProductos();
         cargarDatosJTable();
 
-        //} catch (Exception e) {
-        //   JOptionPane.showMessageDialog(null, "error editando");
-        //}
+        } catch (ArrayIndexOutOfBoundsException aioo) {
+           JOptionPane.showMessageDialog(null, "selecciona fila de la tabla");
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try{
         int fila = jTable1.getSelectedRow();
         int idTicket = (int) jTable1.getValueAt(fila, 0);
         int total = 0;
@@ -254,18 +262,28 @@ public class VentanaAdmin extends javax.swing.JDialog {
         mostrar = mostrar.concat("-----------------");
         mostrar = mostrar.concat("total:  " + total);
         JOptionPane.showMessageDialog(null, mostrar);
-
+        }catch(ArrayIndexOutOfBoundsException aioe){
+            JOptionPane.showMessageDialog(null, "selecciona fila de la tabla");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         jButton1.setText("Borrar");
+        jButton1.setVisible(true);
+        jButton2.setVisible(false);
+        jTable1.setVisible(true);
+        jScrollPane1.setVisible(true);
         cargarDatosJTable();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         jButton1.setText("Editar Productos");
+        jButton1.setVisible(true);
+        jButton2.setVisible(false);
+        jTable1.setVisible(true);        
+        jScrollPane1.setVisible(true);
         cargarDatosJTable();
 
 
@@ -274,6 +292,10 @@ public class VentanaAdmin extends javax.swing.JDialog {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         cargarDatosJTableTicket();
+        jButton2.setVisible(true);
+        jButton1.setVisible(false);
+        jTable1.setVisible(true);
+        jScrollPane1.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -285,6 +307,10 @@ public class VentanaAdmin extends javax.swing.JDialog {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
         jButton1.setText("Cambiar Stock");
+        jButton1.setVisible(true);
+        jButton2.setVisible(false);
+        jTable1.setVisible(true);
+        jScrollPane1.setVisible(true);
         cargarDatosJTable();
 
     }//GEN-LAST:event_jMenuItem5ActionPerformed
