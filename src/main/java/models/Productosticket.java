@@ -4,13 +4,12 @@
  */
 package models;
 
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -55,8 +54,8 @@ public class Productosticket implements Serializable {
 
     public Productosticket(ProductosticketPK productosticketPK, int cantidad) {
         this.productosticketPK = productosticketPK;
-        producto=DawFoodDanielNavarro.getListaProductos().get(productosticketPK.getIdProducto()-1);
-        ticket=DawFoodDanielNavarro.getListaTickets().get(productosticketPK.getIdTicket()-1);
+        producto= metodos.metodos.buscarEnLista(metodos.MetodoEntidades.getListaProductos(), productosticketPK.getIdProducto());
+        ticket=MetodoEntidades.getListaTickets().get(productosticketPK.getIdTicket()-1);
         this.cantidad = cantidad;
     }
 

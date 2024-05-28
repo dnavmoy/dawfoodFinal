@@ -6,7 +6,7 @@ package previo;
 
 import previo.VentanaPedidoPrevio;
 import models.Producto;
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import views.modelosTabla.ModeloTablaCarrito;
 import views.modelosTabla.ModeloTablaProducto;
 import javax.swing.JOptionPane;
@@ -62,7 +62,7 @@ public class VentanaCategoriaPrevio extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         //List<Producto> = ProductoJpaController.g
-        for (Producto p : DawFoodDanielNavarro.getListaProductos()) {
+        for (Producto p : MetodoEntidades.getListaProductos()) {
             try {
                 if (p.getCodCategoria().getCodCategoria() >= numMin && p.getCodCategoria().getCodCategoria() <= numMax) {
                     fila[0] = p.getIdProducto();
@@ -108,9 +108,9 @@ public class VentanaCategoriaPrevio extends javax.swing.JDialog {
 
         padre.getCarrito().getCarrito().forEach((k,v)-> {
             fila[0] = k;
-            fila[1] = DawFoodDanielNavarro.getListaProductos().get(k-1).getDescripcion();
-            fila[2] = DawFoodDanielNavarro.getListaProductos().get(k-1).getPrecio();
-            fila[3] = DawFoodDanielNavarro.getListaProductos().get(k-1).getIva();
+            fila[1] = MetodoEntidades.getListaProductos().get(k-1).getDescripcion();
+            fila[2] = MetodoEntidades.getListaProductos().get(k-1).getPrecio();
+            fila[3] = MetodoEntidades.getListaProductos().get(k-1).getIva();
             fila[4] = v;
             tablaCarrito.addRow(fila);
             
@@ -136,8 +136,8 @@ public class VentanaCategoriaPrevio extends javax.swing.JDialog {
     private  void calculartotal(){
         this.total=0;
          padre.getCarrito().getCarrito().forEach((k,v)-> {
-                    this.total+=((DawFoodDanielNavarro.getListaProductos().get(k-1).getPrecio())*
-                                (1+(DawFoodDanielNavarro.getListaProductos().get(k-1).getIva()/100)))                            
+                    this.total+=((MetodoEntidades.getListaProductos().get(k-1).getPrecio())*
+                                (1+(MetodoEntidades.getListaProductos().get(k-1).getIva()/100)))                            
                             *v;    
                 });
         

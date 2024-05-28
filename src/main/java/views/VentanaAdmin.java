@@ -4,9 +4,11 @@
  */
 package views;
 
+import controllers.ProductoJpaController;
+import controllers.TicketJpaController;
 import views.modelosTabla.ModeloTablaTicket;
 import views.modelosTabla.ModeloTablaProductoEditable;
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import models.Producto;
 import models.Productosticket;
 import models.Ticket;
@@ -28,7 +30,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
     public VentanaAdmin(VentanaInicial ventana, boolean modal) {
         super(ventana, modal);
         padre = ventana;
-        listaProductos = DawFoodDanielNavarro.getListaProductos();
+        listaProductos = MetodoEntidades.getListaProductos();
         initComponents();
         jTable1.setVisible(false);
         jScrollPane1.setVisible(false);
@@ -90,8 +92,8 @@ public class VentanaAdmin extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jMenu1.setBackground(new java.awt.Color(204, 204, 255));
         jMenu1.setText("Editar Productos");
-        jMenu1.setMargin(new java.awt.Insets(3, 6, 3, 12));
 
         jMenuItem1.setText("Editar");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -177,12 +179,12 @@ public class VentanaAdmin extends javax.swing.JDialog {
         try {
              int fila = jTable1.getSelectedRow();
             int idProducto = (int) jTable1.getValueAt(fila, 0);
-             List<Productosticket> lista = DawFoodDanielNavarro.getListaProductosTicket();
+             List<Productosticket> lista = MetodoEntidades.getListaProductosTicket();
             boolean encontrado = false;
             
             // mediante namedQuery puedo buscarlo directamente por la base de datos sin tener que 
             //recorrer la lista entera
-            long total= DawFoodDanielNavarro.productoEnTicket(idProducto);
+            long total= ProductoJpaController.productoEnTicket(idProducto);
             if (total>0){
              encontrado = true;
             }
@@ -196,30 +198,32 @@ public class VentanaAdmin extends javax.swing.JDialog {
 //                }
 //            }
             //si existe no lo puedo borrar, le pongo el stock a 0 para que no aparezca en la lista de pedir y creo uno nuevo con las nuevas caracteristicas
-            if (encontrado == true) {
-                JOptionPane.showMessageDialog(null, "producto encontrado en ticket, cambio stock a 0 y creo nuevo producto");
-                DawFoodDanielNavarro.setStock(0, idProducto);
-                int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
+            int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
                 int codcategoria = Integer.parseInt(jTable1.getValueAt(fila, 5).toString());
                 float precio = Float.parseFloat(jTable1.getValueAt(fila, 2).toString());
-                Producto aCambiar = new Producto(DawFoodDanielNavarro.getListaProductos().get(DawFoodDanielNavarro.getListaProductos().size()-1).getIdProducto()+1,
+                float iva = Float.parseFloat(jTable1.getValueAt(fila, 3).toString());
+            
+            if (encontrado == true) {
+                JOptionPane.showMessageDialog(null, "producto encontrado en ticket, cambio stock a 0 y creo nuevo producto");
+                MetodoEntidades.setStock(0, idProducto);
+                
+                Producto aCambiar = new Producto(MetodoEntidades.getListaProductos().get(MetodoEntidades.getListaProductos().size()-1).getIdProducto()+1,
                         (String) jTable1.getValueAt(fila, 1), precio, 
-                        4,
+                        iva,
                         //(float) jTable1.getValueAt(fila, 3),
                         stock, codcategoria);
                 System.out.println(aCambiar.toString());
-                DawFoodDanielNavarro.crearProducto(aCambiar);
+                MetodoEntidades.crearProducto(aCambiar);
             } else {
-                int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
-                int codcategoria = Integer.parseInt(jTable1.getValueAt(fila, 5).toString());
-                Producto aCambiar = new Producto(idProducto, (String) jTable1.getValueAt(fila, 1), (float) jTable1.getValueAt(fila, 2), (float) jTable1.getValueAt(fila, 3),
+               
+                Producto aCambiar = new Producto(idProducto, (String) jTable1.getValueAt(fila, 1), precio, iva,
                         stock, codcategoria);
 
-                DawFoodDanielNavarro.editarProducto(aCambiar);
+                MetodoEntidades.editarProducto(aCambiar);
             }
 
             //DawFoodDanielNavarro.QueryUpdateProducto(aCambiar);
-            listaProductos = DawFoodDanielNavarro.QueryListaProductos();
+            listaProductos = MetodoEntidades.QueryListaProductos();
             cargarDatosJTable();
         }
         if (jButton1.getText().equals("Borrar")) {
@@ -228,18 +232,18 @@ public class VentanaAdmin extends javax.swing.JDialog {
             if (encontrado == true) {
                 JOptionPane.showMessageDialog(null, "producto encontrado en ticket, cambio stock a 0");
             }else{
-            DawFoodDanielNavarro.borrarProducto(idProducto);
+            MetodoEntidades.borrarProducto(idProducto);
             JOptionPane.showMessageDialog(null, "producto borrado");
             }
         }
         if (jButton1.getText().equals("Cambiar Stock")) {
            
             int stock = Integer.parseInt(jTable1.getValueAt(fila, 4).toString());
-            DawFoodDanielNavarro.setStock(stock, idProducto);
+            MetodoEntidades.setStock(stock, idProducto);
             
         }
 
-        listaProductos = DawFoodDanielNavarro.QueryListaProductos();
+        listaProductos = MetodoEntidades.QueryListaProductos();
         cargarDatosJTable();
 
         } catch (ArrayIndexOutOfBoundsException aioo) {
@@ -253,9 +257,9 @@ public class VentanaAdmin extends javax.swing.JDialog {
         int fila = jTable1.getSelectedRow();
         int idTicket = (int) jTable1.getValueAt(fila, 0);
         double total = 0;
-        List<Productosticket> lista = DawFoodDanielNavarro.queryListaProductosTicket(idTicket);
+        List<Productosticket> lista = TicketJpaController.queryListaProductosTicket(idTicket);
         String mostrar = "Numero ticket: " + idTicket;
-        mostrar = mostrar.concat("\n Fecha: " + DawFoodDanielNavarro.getListaTickets().get(idTicket - 1).getFecha());
+        mostrar = mostrar.concat("\n Fecha: " + MetodoEntidades.getListaTickets().get(idTicket - 1).getFecha());
         mostrar = mostrar.concat("\nnombre de restaurante\n");
         for (Productosticket pt : lista) {
             mostrar = mostrar.concat(String.valueOf(pt.getCantidad()) + " x ");
@@ -306,7 +310,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
         // TODO add your handling code here:
         VentanaNuevoProducto nuevav = new VentanaNuevoProducto(this, true);
         nuevav.setVisible(true);
-        listaProductos = DawFoodDanielNavarro.getListaProductos();
+        listaProductos = MetodoEntidades.getListaProductos();
         cargarDatosJTable();
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -374,7 +378,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
 
         // Se crea el modelo de datos que contendrá el JTable
         // Este modelo se rellena de datos y luego se asfechaNacimientoocia al JTable
-        listaProductos = DawFoodDanielNavarro.getListaProductos();
+        listaProductos = MetodoEntidades.getListaProductos();
         ModeloTablaTicket modelo = new ModeloTablaTicket();
 
         // Array de object con el número de columnas del jtable
@@ -384,7 +388,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
         // Iteramos por la lista y asignamos a
         // cada celda del array el valor del atributo de esa persona
         //List<Producto> = ProductoJpaController.g
-        for (Ticket p : DawFoodDanielNavarro.getListaTickets()) {
+        for (Ticket p : MetodoEntidades.getListaTickets()) {
             try {
 
                 fila[0] = p.getIdTicket();

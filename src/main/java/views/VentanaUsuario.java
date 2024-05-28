@@ -4,9 +4,8 @@
  */
 package views;
 
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import clases.Carrito;
-import models.Categorias;
 import models.Producto;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class VentanaUsuario extends javax.swing.JDialog {
     public VentanaUsuario(VentanaInicial ventana, boolean modal) {
         super(ventana, modal);
         padre=ventana;
-        listaProductos = DawFoodDanielNavarro.getListaProductos();
+        listaProductos = MetodoEntidades.getListaProductos();
         initComponents();
          this.carrito = new Carrito();
          

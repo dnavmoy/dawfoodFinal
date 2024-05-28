@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import metodos.MetodoEntidades;
 import models.Categorias;
 import models.Producto;
 import models.Productosticket;
@@ -25,6 +26,12 @@ import models.Productosticket;
  * @author daniel
  */
 public class ProductoJpaController implements Serializable {
+
+    public static long productoEnTicket(int idproducto) {
+        EntityManager em = MetodoEntidades.emf.createEntityManager();
+        long cuenta = (long) em.createNamedQuery("Productosticket.findsienTicket").setParameter("idProducto", idproducto).getSingleResult();
+        return cuenta;
+    }
 
     public ProductoJpaController(EntityManagerFactory emf) {
         this.emf = emf;

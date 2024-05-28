@@ -6,11 +6,12 @@ package views;
 
 import views.modelosTabla.ModeloTablaProducto;
 import views.modelosTabla.ModeloTablaCarrito;
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import clases.Carrito;
 import models.Producto;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
+import metodos.metodos;
 
 /**
  *
@@ -113,7 +114,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         //List<Producto> = ProductoJpaController.g
 
         padre.getCarrito().getCarrito().forEach((k, v) -> {
-            int posicion = DawFoodDanielNavarro.buscarEnListaPosicion(padre.getListaProductos(), k);
+            int posicion = metodos.buscarEnListaPosicion(padre.getListaProductos(), k);
             fila[0] = k;
             fila[1] = padre.getListaProductos().get(posicion).getDescripcion();
             fila[2] = padre.getListaProductos().get(posicion).getPrecio();
@@ -144,12 +145,12 @@ public class VentanaPedido extends javax.swing.JDialog {
         this.total = 0;
         this.totalIva=0;
         padre.getCarrito().getCarrito().forEach((k, v) -> {
-            int posicion = DawFoodDanielNavarro.buscarEnListaPosicion(padre.getListaProductos(), k);
+            int posicion = metodos.buscarEnListaPosicion(padre.getListaProductos(), k);
             
-            this.total += (DawFoodDanielNavarro.getListaProductos().get(posicion).getPrecio())* v;
+            this.total += (MetodoEntidades.getListaProductos().get(posicion).getPrecio())* v;
             
-            this.totalIva+=((DawFoodDanielNavarro.getListaProductos().get(posicion).getPrecio())
-                    * (DawFoodDanielNavarro.getListaProductos().get(posicion).getIva() / 100))
+            this.totalIva+=((MetodoEntidades.getListaProductos().get(posicion).getPrecio())
+                    * (MetodoEntidades.getListaProductos().get(posicion).getIva() / 100))
                     * v;
         });
 
@@ -348,11 +349,11 @@ public class VentanaPedido extends javax.swing.JDialog {
                 
                 padre.getCarrito().getCarrito().put(idProducto, padre.getCarrito().getCarrito().get(idProducto) + (int) jSpinner1.getValue());
               
-                padre.getListaProductos().get(DawFoodDanielNavarro.buscarEnListaPosicion(padre.getListaProductos(), idProducto)).setStock(DawFoodDanielNavarro.buscarEnLista(padre.getListaProductos(), idProducto).getStock() - (int) jSpinner1.getValue());
+                padre.getListaProductos().get(metodos.buscarEnListaPosicion(padre.getListaProductos(), idProducto)).setStock(metodos.buscarEnLista(padre.getListaProductos(), idProducto).getStock() - (int) jSpinner1.getValue());
                 cargarDatosJTable(jComboBox1.getSelectedItem().toString());
             } else {
                 padre.getCarrito().getCarrito().put(idProducto, (int) jSpinner1.getValue());
-                padre.getListaProductos().get(DawFoodDanielNavarro.buscarEnListaPosicion(padre.getListaProductos(), idProducto)).setStock(DawFoodDanielNavarro.buscarEnLista(padre.getListaProductos(), idProducto).getStock() - (int) jSpinner1.getValue());
+                padre.getListaProductos().get(metodos.buscarEnListaPosicion(padre.getListaProductos(), idProducto)).setStock(metodos.buscarEnLista(padre.getListaProductos(), idProducto).getStock() - (int) jSpinner1.getValue());
                 cargarDatosJTable(jComboBox1.getSelectedItem().toString());
             }
             cargarDatosJTable2();
@@ -381,7 +382,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         // TODO add your handling code here:
         int fila = jTable1.getSelectedRow();
         int idProducto = (int) jTable1.getValueAt(fila, 0);
-        int stock = DawFoodDanielNavarro.buscarEnLista(padre.getListaProductos(), idProducto).getStock();                
+        int stock = metodos.buscarEnLista(padre.getListaProductos(), idProducto).getStock();                
         cambiarSpinner(stock);
     }//GEN-LAST:event_jTable1FocusGained
 
@@ -390,7 +391,7 @@ public class VentanaPedido extends javax.swing.JDialog {
         try{
         int fila = jTable2.getSelectedRow();
         int idProducto = (int) jTable2.getValueAt(fila, 0);
-        int posicion = DawFoodDanielNavarro.buscarEnListaPosicion(padre.getListaProductos(), idProducto);
+        int posicion = metodos.buscarEnListaPosicion(padre.getListaProductos(), idProducto);
         padre.getListaProductos().get(posicion).setStock(
                 padre.getListaProductos().get(posicion).getStock()
                 + padre.getCarrito().getCarrito().get(idProducto)

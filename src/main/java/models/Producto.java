@@ -34,8 +34,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Producto.findByIva", query = "SELECT p FROM Producto p WHERE p.iva = :iva"),
     @NamedQuery(name = "Producto.findByStock", query = "SELECT p FROM Producto p WHERE p.stock = :stock"),
     @NamedQuery(name = "Producto.findByCodCategoria", query = "SELECT p FROM Producto p WHERE p.codCategoria = :codCategoria"),
-    //@NamedQuery(name = "Producto.findBycoso", query = "SELECT p FROM Producto p WHERE p.codCategoria = :codCategoria"),
-    //@NamedQuery(name = "Producto.update", query = "UPDATE Producto p SET p.Descripcion = :Descripcion ,p.Precio = :Precio ,p.Iva = :Iva ,p.Stock= :Stock, p.CodCategoria= :CodCategoria WHERE p.IdProducto= :IdProducto ")
+    
 })
 public class Producto implements Serializable {
 

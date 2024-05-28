@@ -4,7 +4,7 @@
  */
 package views;
 
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import models.Producto;
 import javax.swing.JOptionPane;
 
@@ -151,13 +151,13 @@ public class VentanaNuevoProducto extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Producto nuevo = new Producto(
-                DawFoodDanielNavarro.getListaProductos().get(DawFoodDanielNavarro.getListaProductos().size()-1).getIdProducto()+1,
+                MetodoEntidades.getListaProductos().get(MetodoEntidades.getListaProductos().size()-1).getIdProducto()+1,
                 jTextField1.getText(),
                 Float.parseFloat(jTextField2.getText()),
                 Float.parseFloat(jTextField3.getText()),
                 Integer.parseInt(jTextField4.getText()),
                 Integer.parseInt(jTextField5.getText()));
-        DawFoodDanielNavarro.crearProducto(nuevo);
+        MetodoEntidades.crearProducto(nuevo);
         JOptionPane.showMessageDialog(null, "Producto Creado");
     }//GEN-LAST:event_jButton1ActionPerformed
 

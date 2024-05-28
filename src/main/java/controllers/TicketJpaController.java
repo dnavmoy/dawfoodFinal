@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import metodos.MetodoEntidades;
 import models.Productosticket;
 import models.Ticket;
 import models.Tpv;
@@ -25,6 +26,14 @@ import models.Tpv;
  * @author daniel
  */
 public class TicketJpaController implements Serializable {
+
+    public static List<Productosticket> queryListaProductosTicket(int idTicket) {
+        EntityManager em = MetodoEntidades.emf.createEntityManager();
+        Ticket t = em.find(Ticket.class, idTicket);
+        List<Productosticket> lista = (List<Productosticket>) t.getProductosticketCollection();
+        return lista;
+    }
+
 
     public TicketJpaController(EntityManagerFactory emf) {
         this.emf = emf;

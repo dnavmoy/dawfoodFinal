@@ -4,9 +4,10 @@
  */
 package views;
 
-import metodos.DawFoodDanielNavarro;
+import metodos.MetodoEntidades;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
+import metodos.metodos;
 
 /**
  *
@@ -172,16 +173,16 @@ public class PasarelaPago extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             LocalDate enviar = LocalDate.of(Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField2.getText()), 30);
-            if (DawFoodDanielNavarro.pasarelaPago(padre.totalPedido(),
+            if (metodos.pasarelaPago(padre.totalPedido(),
                     Integer.parseInt(jTextField1.getText()),
                     enviar,
                      Integer.parseInt(jTextField4.getText()))) {
                 JOptionPane.showMessageDialog(null, "pago correcto");
                 padre.setpagado(true);
                 try{
-                    DawFoodDanielNavarro.crearTicket(padre.totalPedido(), padre.totalPedidoIva(),DawFoodDanielNavarro.obtenerTpv(),padre.getCarrito());
+                    MetodoEntidades.crearTicket(padre.totalPedido(), padre.totalPedidoIva(),MetodoEntidades.obtenerTpv(),padre.getCarrito());
                     padre.getCarrito().getCarrito().forEach((k,v)->{
-                       DawFoodDanielNavarro.cambiarStock(v, k);
+                       MetodoEntidades.cambiarStock(v, k);
                         
                     });
                 }catch(Exception e ){

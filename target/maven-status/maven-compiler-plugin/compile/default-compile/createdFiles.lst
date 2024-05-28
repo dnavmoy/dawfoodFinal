@@ -19,7 +19,6 @@ views/VentanaPedido$7.class
 views/VentanaAdmin$2.class
 views/VentanaPedido$4.class
 models/ProductosticketPK.class
-metodos/DawFoodDanielNavarro.class
 views/PasarelaPago$1.class
 views/VentanaInicial$2.class
 views/VentanaNuevoProducto.class
@@ -43,6 +42,7 @@ controllers/ProductosticketJpaController.class
 models/Ticket_.class
 views/VentanaUsuario$1.class
 views/VentanaPedido$1.class
+metodos/MetodoEntidades.class
 views/VentanaNuevoProducto$3.class
 models/Productosticket.class
 views/modelosTabla/ModeloTablaTicket.class
@@ -57,3 +57,4 @@ clases/Carrito.class
 views/VentanaInicial$4.class
 views/VentanaPedido$6.class
 views/modelosTabla/ModeloTablaProductoEditable.class
+metodos/metodos.class

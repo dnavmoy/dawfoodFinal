@@ -1,7 +1,7 @@
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/models/ProductosticketPK.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/controllers/ProductosticketJpaController.java
-/home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/metodos/DawFoodDanielNavarro.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/clases/Carrito.java
+/home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/metodos/MetodoEntidades.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/views/VentanaUsuario.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/views/modelosTabla/ModeloTablaCarrito.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/views/VentanaAdmin.java
@@ -10,6 +10,7 @@
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/controllers/TicketJpaController.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/views/PasarelaPago.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/models/Categorias.java
+/home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/metodos/metodos.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/controllers/ProductoJpaController.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/views/modelosTabla/ModeloTablaTicket.java
 /home/daniel/NetBeansProjects/dawfoodFinal/src/main/java/views/VentanaPedido.java
