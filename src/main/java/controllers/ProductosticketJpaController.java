@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import metodos.MetodoEntidades;
 import models.Producto;
 import models.Productosticket;
 import models.ProductosticketPK;
@@ -24,6 +25,12 @@ import models.Ticket;
  * @author daniel
  */
 public class ProductosticketJpaController implements Serializable {
+
+    public static long productoEnTicket(int idproducto) {
+        EntityManager em = MetodoEntidades.emf.createEntityManager();
+        long cuenta = (long) em.createNamedQuery("Productosticket.findsienTicket").setParameter("idProducto", idproducto).getSingleResult();
+        return cuenta;
+    }
 
     public ProductosticketJpaController(EntityManagerFactory emf) {
         this.emf = emf;

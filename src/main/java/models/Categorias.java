@@ -4,7 +4,6 @@
  */
 package models;
 
-import models.Producto;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -23,6 +22,8 @@ import javax.persistence.Table;
  *
  * @author daniel
  */
+
+//entidad categorias, nombre,cod y tipo -> oneTomany con productos mediante codCategoria asi se pueden consultar los productos de una categoria
 @Entity
 @Table(name = "categorias")
 @NamedQueries({
@@ -44,6 +45,8 @@ public class Categorias implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo")
     private String tipo;
+    //un producto solo puede ser de una categoria, y una categoria puede tener muchos productos, 
+    //
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codCategoria")
     private Collection<Producto> productoCollection;
 

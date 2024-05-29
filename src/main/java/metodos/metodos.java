@@ -16,7 +16,7 @@ import models.Producto;
  *
  * @author daniel
  */
-public class metodos {
+public class Metodos {
     
      
     

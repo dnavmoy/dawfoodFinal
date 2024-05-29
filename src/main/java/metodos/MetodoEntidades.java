@@ -31,17 +31,26 @@ import javax.swing.JOptionPane;
  */
 public class MetodoEntidades {
 
+    //entidades creadas desde la base de datos, paquete entidades y paquete controladores con los jpaController
+    //paquete views con las distintas ventanas 
+    
  //Ventana inicial tiene el main, llama a la ventana de usuario o la ventana de administracion
     //ventana de usuario inicializa el carrito (con su clase) e importa una lista de productos mediante metodo en Dawfood  trayendo datos de la base de datos,
     //mediante entidad producto -> metodo getlista 
-    //se añade y se quita del carro segun metodos, comprobando stock y cuando se procede al pago (otra view de pasarela de pago) y este se realiza correctamente
-    //se utilizan los metodos de la entidad producto para cambiar el stock y luego mediante metodos dela entidad ticket se crea un ticket y se generan las lineas de ticket en 
+    //se añade y se quita del carro segun Metodos, comprobando stock y cuando se procede al pago (otra view de pasarela de pago) y este se realiza correctamente
+    //se utilizan los Metodos de la entidad producto para cambiar el stock y luego mediante Metodos dela entidad ticket se crea un ticket y se generan las lineas de ticket en 
     //productosticket.
     
-    //productos ticket tiene una realizacion de muchos a uno ( y ticket la inversa mapeada por idTicket uno a muchos) 
+    //productos ticket tiene una realizacion de muchos a uno ( y ticket la inversa mapeada por idTicket uno a muchos) -> se pueden consultar los productos que hay en un ticket de esta manera 
+    //el metodo getProductosticketCollection devuelve una collecion de productosTicket (el detalle de productos) que hay en cada ticket que uso para crear el ticket que se muestra al usuario. 
+       
     
   //ventana admin por experimentar un poco (y arrepentirme luego por lo feo) probe a hacer una barra superior de menu, al seleccionar opcion muestra e importa la lista de productos o ticket en el 
-    //mismo jtable y muestra los 
+    //mismo jtable y muestra los tickets para poder consultarlos.
+    //Stock se puede editar de cualquier producto mediante la opcion del menu, pero para editar los demas campos comprueba si está en un ticket mediante un namedQuery -> "Productosticket.findsienTicket" que hace un select count 
+    //y si es mayor a 0 significa que esta en un ticket por lo que no lo cambia. Ahí ya pense en crear un producto nuevo y cambiarle el stock a 0 para darle funcionalidad, asi no se muestra el producto anterior.
+    
+    
     
     
     private static int numPedido=0;
@@ -59,12 +68,6 @@ public class MetodoEntidades {
         return tpvc.findTpv(1);
     }
     
-    public static List<Producto> QueryListaProductos(){
-        EntityManager em = emf.createEntityManager();
-        List<Producto> lista = em.createNamedQuery("Producto.findAll").getResultList();
-        return lista;
-        
-    }
     
     
 
@@ -90,7 +93,7 @@ public class MetodoEntidades {
     public static void borrarProducto(int id){
         
         
-        Producto editar= metodos.buscarEnLista(getListaProductos(), id);
+        Producto editar= Metodos.buscarEnLista(getListaProductos(), id);
         try {
             pc.destroy(editar.getIdProducto());
         } catch (NonexistentEntityException ex) {
@@ -101,7 +104,7 @@ public class MetodoEntidades {
     }
     
     public static void cambiarStock(int cantidad,int id){
-        int posicion = metodos.buscarEnListaPosicion(getListaProductos(), id);
+        int posicion = Metodos.buscarEnListaPosicion(getListaProductos(), id);
         Producto editar = getListaProductos().get(posicion);
         editar.setStock(editar.getStock()-cantidad);
         try {
@@ -113,7 +116,7 @@ public class MetodoEntidades {
         }
     }
     public static void setStock(int cantidad,int id){
-        int posicion = metodos.buscarEnListaPosicion(getListaProductos(), id);
+        int posicion = Metodos.buscarEnListaPosicion(getListaProductos(), id);
         Producto editar = getListaProductos().get(posicion);
         editar.setStock(cantidad);
         try {

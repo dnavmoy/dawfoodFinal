@@ -5,9 +5,7 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -38,6 +35,11 @@ import javax.persistence.Table;
 })
 public class Producto implements Serializable {
 
+    //mapea los campos de la tabla producto a la clase producto, mediante anotaciones con la @ -
+    //la relacion con productosticket la comento al no utilizarla, no me aporta informacion (actualmente)
+    //saber que productos están en una linea de detalle de ticket. 
+    //sin embargo la opuesta si existe ya que si quiero saber que producto son los que estan en un productoTicket mediante el id
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

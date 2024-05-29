@@ -27,10 +27,11 @@ import models.Productosticket;
  */
 public class ProductoJpaController implements Serializable {
 
-    public static long productoEnTicket(int idproducto) {
+
+    public static List<Producto> QueryListaProductos() {
         EntityManager em = MetodoEntidades.emf.createEntityManager();
-        long cuenta = (long) em.createNamedQuery("Productosticket.findsienTicket").setParameter("idProducto", idproducto).getSingleResult();
-        return cuenta;
+        List<Producto> lista = em.createNamedQuery("Producto.findAll").getResultList();
+        return lista;
     }
 
     public ProductoJpaController(EntityManagerFactory emf) {

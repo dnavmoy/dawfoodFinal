@@ -7,7 +7,7 @@ package views;
 import metodos.MetodoEntidades;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
-import metodos.metodos;
+import metodos.Metodos;
 
 /**
  *
@@ -24,7 +24,7 @@ public class PasarelaPago extends javax.swing.JDialog {
         super(ventana, modal);
         padre = ventana;
         initComponents();
-        jTextField5.setText(String.valueOf(padre.totalPedido()+padre.totalPedidoIva()));
+        jTextField5.setText(String.format("%.2f",padre.totalPedido()+padre.totalPedidoIva()));
         jTextField5.setEditable(false);
         jTextField1.setText("4321");
         jTextField2.setText("12");
@@ -173,7 +173,7 @@ public class PasarelaPago extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             LocalDate enviar = LocalDate.of(Integer.parseInt(jTextField3.getText()), Integer.parseInt(jTextField2.getText()), 30);
-            if (metodos.pasarelaPago(padre.totalPedido(),
+            if (Metodos.pasarelaPago(padre.totalPedido(),
                     Integer.parseInt(jTextField1.getText()),
                     enviar,
                      Integer.parseInt(jTextField4.getText()))) {

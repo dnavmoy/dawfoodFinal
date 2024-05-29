@@ -22,6 +22,9 @@ import javax.persistence.Table;
  *
  * @author daniel
  */
+
+//al simplificar el programa se queda solo aportando informacon del tpv actual,
+//se implementa solo para poder actualizar en el futuro
 @Entity
 @Table(name = "tpv")
 @NamedQueries({

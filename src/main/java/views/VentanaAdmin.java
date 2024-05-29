@@ -5,6 +5,7 @@
 package views;
 
 import controllers.ProductoJpaController;
+import controllers.ProductosticketJpaController;
 import controllers.TicketJpaController;
 import views.modelosTabla.ModeloTablaTicket;
 import views.modelosTabla.ModeloTablaProductoEditable;
@@ -184,7 +185,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
             
             // mediante namedQuery puedo buscarlo directamente por la base de datos sin tener que 
             //recorrer la lista entera
-            long total= ProductoJpaController.productoEnTicket(idProducto);
+            long total= ProductosticketJpaController.productoEnTicket(idProducto);
             if (total>0){
              encontrado = true;
             }
@@ -223,7 +224,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
             }
 
             //DawFoodDanielNavarro.QueryUpdateProducto(aCambiar);
-            listaProductos = MetodoEntidades.QueryListaProductos();
+            listaProductos = ProductoJpaController.QueryListaProductos();
             cargarDatosJTable();
         }
         if (jButton1.getText().equals("Borrar")) {
@@ -243,7 +244,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
             
         }
 
-        listaProductos = MetodoEntidades.QueryListaProductos();
+        listaProductos = ProductoJpaController.QueryListaProductos();
         cargarDatosJTable();
 
         } catch (ArrayIndexOutOfBoundsException aioo) {
@@ -395,7 +396,7 @@ public class VentanaAdmin extends javax.swing.JDialog {
                 fila[1] = p.getNumPedido();
                 fila[2] = p.getCodTransaccion();
                 fila[3] = p.getFecha();
-                fila[4] = p.getTotalPedido()+p.getTotalIva();
+                fila[4] = String.format("%.2f",p.getTotalPedido()+p.getTotalIva() );
                 modelo.addRow(fila);
 
             } catch (Exception e) {

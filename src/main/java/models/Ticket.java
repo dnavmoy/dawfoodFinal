@@ -26,12 +26,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 
-// cuidado que has cambiado DAte por localDate!!!
+
 
 /**
  *
  * @author daniel
  */
+
+//Entidad Ticket, relacion onetoMany con productosticket para poder consultar los prodcutos de un ticket
+
+
 @Entity
 @Table(name = "ticket")
 @NamedQueries({

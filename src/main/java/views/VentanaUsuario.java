@@ -8,6 +8,7 @@ import metodos.MetodoEntidades;
 import clases.Carrito;
 import models.Producto;
 import java.util.List;
+import models.Categorias;
 
 /**
  *
@@ -28,7 +29,8 @@ public class VentanaUsuario extends javax.swing.JDialog {
         listaProductos = MetodoEntidades.getListaProductos();
         initComponents();
          this.carrito = new Carrito();
-         
+         Categorias c1 = new Categorias(1);
+
          
     }
 

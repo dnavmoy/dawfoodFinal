@@ -13,6 +13,10 @@ import javax.persistence.Embeddable;
  *
  * @author daniel
  */
+
+//primaryKey compuesta de productosTicket
+
+
 @Embeddable
 public class ProductosticketPK implements Serializable {
 

@@ -20,6 +20,8 @@ import javax.persistence.Table;
  *
  * @author daniel
  */
+
+//detalle de ticket, idproducto,idticket y cantidad mediante enteros JoinColum y manytoOne con producto y ticket para consultar los id y crear objeto producto y ticket
 @Entity
 @Table(name = "productosticket")
 @NamedQueries({
@@ -54,7 +56,7 @@ public class Productosticket implements Serializable {
 
     public Productosticket(ProductosticketPK productosticketPK, int cantidad) {
         this.productosticketPK = productosticketPK;
-        producto= metodos.metodos.buscarEnLista(metodos.MetodoEntidades.getListaProductos(), productosticketPK.getIdProducto());
+        producto= metodos.Metodos.buscarEnLista(metodos.MetodoEntidades.getListaProductos(), productosticketPK.getIdProducto());
         ticket=MetodoEntidades.getListaTickets().get(productosticketPK.getIdTicket()-1);
         this.cantidad = cantidad;
     }
